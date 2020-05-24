@@ -1,0 +1,32 @@
+<?php
+
+//https://dev.to/wilburpowery/easily-use-uuids-in-laravel-45be
+
+namespace App\Traits\System;
+
+use Illuminate\Support\Str;
+
+trait UsesUUID {
+
+    protected static function bootUsesUUID()
+    {
+        static::creating(function ($model) {
+
+            if (! $model->getKey()) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+
+        });
+    }
+
+    public function getIncrementing()
+    {
+        return false;
+    }
+
+    public function getKeyType()
+    {
+        return 'string';
+    }
+
+}
