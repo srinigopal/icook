@@ -21,60 +21,6 @@ Route::group([ 'middleware' => 'auth:sanctum'], function () {
 		
 	
 	
-		// student
-        Route::group(['prefix' => 'student'], function () {
-			
-            Route::get('/{id}', 'API\_Private\Student\StudentController@index');	
-            Route::post('/profile', 'API\_Private\Student\StudentController@store');			
-
-        });
-		
-		// studentclass
-        Route::group(['prefix' => 'studentclass'], function () {
-			
-			Route::get('/', 'API\_Private\Studentclass\StudentClassController@index');	
-			Route::get('/{id}', 'API\_Private\Studentclass\StudentClassController@edit');	
-            Route::post('/', 'API\_Private\Studentclass\StudentClassController@store');			
-			Route::patch('/', 'API\_Private\Studentclass\StudentClassController@update');	
-		});
-		
-		// studentclass
-        Route::group(['prefix' => 'studentsubject'], function () {
-			
-			Route::get('/', 'API\_Private\Studentsubject\StudentSubjectController@index');	
-			Route::get('/{id}', 'API\_Private\Studentsubject\StudentSubjectController@edit');	
-            Route::post('/', 'API\_Private\Studentsubject\StudentSubjectController@store');			
-			Route::patch('/', 'API\_Private\Studentsubject\StudentSubjectController@update');	
-		});
-		
-		// teacher
-        Route::group(['prefix' => 'teacher'], function () {
-			
-            Route::get('/{id}', 'API\_Private\Teacher\TeacherController@index');	
-            Route::post('/profile', 'API\_Private\Teacher\TeacherController@store');
-			
-          
-        });
-		
-		
-		// studentclass
-        Route::group(['prefix' => 'syllabus'], function () {
-			
-			Route::get('/', 'API\_Private\syllabus\SyllabusController@index');	
-			Route::get('/{id}', 'API\_Private\syllabus\SyllabusController@edit');	
-            Route::post('/', 'API\_Private\syllabus\SyllabusController@store');			
-			Route::patch('/', 'API\_Private\syllabus\SyllabusController@update');	
-			Route::post('/filepload', 'API\_Private\syllabus\SyllabusController@fileupload');			
-		});
-		
-		// subjectTeacher
-        Route::group(['prefix' => 'subjecteacher'], function () {
-			
-			Route::get('/', 'API\_Private\SubjectTeacher\SubjectTeacherController@index');	
-			Route::get('/{id}', 'API\_Private\SubjectTeacher\SubjectTeacherController@edit');	
-            Route::post('/', 'API\_Private\SubjectTeacher\SubjectTeacherController@store');			
-			Route::patch('/', 'API\_Private\SubjectTeacher\SubjectTeacherController@update');	
-		});
 		
 		
 		Route::get('/config', 'API\_Private\ConfigProfile');
