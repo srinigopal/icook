@@ -42,6 +42,21 @@ Route::group(['middleware' => [  'auth:web' ]], function() {
 
     });
 
+   //admin routes - organisation admin role
+    Route::group([
+        'prefix' => 'management'
+    ], function() {
+
+        //admin routes
+        foreach (File::allFiles(__DIR__.'/_management') as $file) {
+            require $file->getPathname();
+        }
+
+    });
+   
+   
+   
+   
    
 //Route::get('/admin/organization', 'OrganizationController@index')->name('organisation.list');
 //Route::get('/admin/organization/add', 'OrganizationController@store')->name('organisation.add');
