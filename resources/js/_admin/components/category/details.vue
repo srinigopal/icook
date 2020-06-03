@@ -1,495 +1,295 @@
 <template>
-    <div class="main-content">
-        <breadcumb :page="'Basic'" :folder="'Forms'" />
-        <b-row>
-            <b-col md="12 mb-30">
-                <b-card title="Create Restaurant">
-                    
-                    <b-form>
-                        <b-row>
+  <div class="main-content">
+    
+    <b-card>
+      <vue-good-table
+        :columns="columns"
+        :line-numbers="false"
+        :search-options="{
+          enabled: true,
+          placeholder: 'Search this table'
+        }"
+        :pagination-options="{
+          enabled: true,
+          mode: 'records'
+        }"
+        styleClass="tableOne vgt-table"
+        :rows="rows"
+      >
+        <div slot="table-actions" class="mb-3">
+          <b-button variant="primary" class="btn-rounded d-none d-sm-block" v-b-modal.modal-1
+            ><i class="i-Add-User text-white mr-2"> </i>Add Restaurants
+          </b-button>
 
-                        <b-form-group
-                                class="col-md-6 mb-3" 
-                                id="input-group-1"
-                                label="First Name"
-                                label-for="input-1"
-                                    
-                            >
-                                <b-form-input
-                                
-                                id="input-1"
-                                v-model="form.fName"
-                                type="text"
-                                required
-                                placeholder="First Name"
-                                ></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                                class="col-md-6 mb-3" 
-                                id="input-group-1"
-                                label="Last Name"
-                                label-for="input-1"
-                                    
-                            >
-                                <b-form-input
-                                
-                                id="input-1"
-                                v-model="form.lName"
-                                type="text"
-                                required
-                                placeholder="Last Name"
-                                ></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                                class="col-md-6 mb-3" 
-                                id="input-group-1"
-                                label="Email address:"
-                                label-for="input-1"
-                                description="We'll never share your email with anyone else."
-                                
-                            >
-                                <b-form-input
-                                
-                                id="input-1"
-                                v-model="form.email"
-                                type="email"
-                                required
-                                placeholder="Enter email"
-                                ></b-form-input>
-                            </b-form-group>
-                        <b-form-group
-                                class="col-md-6 mb-3" 
-                                id="input-group-1"
-                                label="Phone Number:"
-                                label-for="input-1"
-                               
-                                
-                            >
-                                <b-form-input
-                                
-                                id="input-1"
-                                v-model="form.phone"
-                                type="text"
-                                required
-                                placeholder="put your phone number"
-                                ></b-form-input>
-                            </b-form-group>
+          <b-modal id="modal-1" title="BootstrapVue">
+            <b-form>
+              <b-form-group
+                id="input-group-1"
+                label="Email address:"
+                label-for="input-1"
+                description="We'll never share your email with anyone else."
+              >
+                <b-form-input
+                  id="input-1"
+                  type="email"
+                  required
+                  placeholder="Enter email"
+                ></b-form-input>
+              </b-form-group>
 
-                            <b-form-group
-                                id="input-group-1"
-                                label="Credit Card"
-                                label-for="input-1"
-                                class="col-md-6" 
-                            >
-                                <b-form-input
-                            
-                                id="input-1"
-                                v-model="form.credit"
-                                type="email"
-                                required
-                                placeholder="Enter Credit Card Number"
-                                ></b-form-input>
-                            </b-form-group>
+              <b-form-group
+                id="input-group-2"
+                label="Your Name:"
+                label-for="input-2"
+              >
+                <b-form-input
+                  id="input-2"
+                  required
+                  placeholder="Enter name"
+                ></b-form-input>
+              </b-form-group>
 
-                            <b-form-group
-                                id="input-group-1"
-                                label="Date"
-                                label-for="input-1"
-                                    class="col-md-6" 
-                            >
-                                <!-- <v-date-picker
-                                v-model="date"
-                                /> -->
-                                <b-form-input v-model="date" class="input" type="date"></b-form-input>
-                            </b-form-group>
+              <b-form-group
+                id="input-group-3"
+                label="Food:"
+                label-for="input-3"
+              >
+                <b-form-select
+                  id="input-3"
+                  :options="foods"
+                  required
+                ></b-form-select>
+              </b-form-group>
 
-                           <b-form-group      
-                                id="input-group-1"
-                                label="Select"
-                                label-for="input-1"
-                                class="col-md-6"
-                           >
-                                <b-form-select  
-                                    :value="null"
-                                    :options="{ '1': 'One', '2': 'Two', '3': 'Three' }"
-                                    id="inline-form-custom-select-pref"
-                                    >
-                                    <option slot="first" :value="null">Choose...</option>
-                                </b-form-select>
-                           </b-form-group>
+              <b-form-group id="input-group-4">
+                <b-form-checkbox-group id="checkboxes-4">
+                  <b-form-checkbox value="me">Check me out</b-form-checkbox>
+                  <b-form-checkbox value="that">Check that out</b-form-checkbox>
+                </b-form-checkbox-group>
+              </b-form-group>
+            </b-form>
+          </b-modal>
+        </div>
 
-                            <b-col md="12">
-                                <b-button class="mt-3" type="submit" variant="primary">Submit</b-button>
-                            </b-col>
-                            
-                        </b-row>
-                    </b-form>
-                </b-card>
-            </b-col>
-
-
-            <!-- form-inputs-rounded -->
-            <b-col md="12 mb-30">
-                <b-card class="" title="Form Inputs Rounded">
-                   <b-form>
-                        <b-row>
-
-                        <b-form-group
-                                class="col-md-6 mb-3" 
-                                id="input-group-1"
-                                label="First Name"
-                                label-for="input-1"
-                                    
-                            >
-                                <b-form-input
-                                class="form-control-rounded"
-                                id="input-1"
-                                v-model="form.fName"
-                                type="text"
-                                required
-                                placeholder="First Name"
-                                ></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                                class="col-md-6 mb-3" 
-                                id="input-group-1"
-                                label="Last Name"
-                                label-for="input-1"
-                                    
-                            >
-                                <b-form-input
-                                class="form-control-rounded"
-                                id="input-1"
-                                v-model="form.lName"
-                                type="text"
-                                required
-                                placeholder="Last Name"
-                                ></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                                class="col-md-6 mb-3" 
-                                id="input-group-1"
-                                label="Email address:"
-                                label-for="input-1"
-                                description="We'll never share your email with anyone else."
-                                
-                            >
-                                <b-form-input
-                                class="form-control-rounded"
-                                id="input-1"
-                                v-model="form.email"
-                                type="email"
-                                required
-                                placeholder="Enter email"
-                                ></b-form-input>
-                            </b-form-group>
-                        <b-form-group
-                                class="col-md-6 mb-3" 
-                                id="input-group-1"
-                                label="Phone Number:"
-                                label-for="input-1"
-                               
-                                
-                            >
-                                <b-form-input
-                                class="form-control-rounded"
-                                id="input-1"
-                                v-model="form.phone"
-                                type="text"
-                                required
-                                placeholder="put your phone number"
-                                ></b-form-input>
-                            </b-form-group>
-
-                            <b-form-group
-                                id="input-group-1"
-                                label="Credit Card"
-                                label-for="input-1"
-                                class="col-md-6" 
-                            >
-                                <b-form-input
-                                class="form-control-rounded"
-                                id="input-1"
-                                v-model="form.credit"
-                                type="email"
-                                required
-                                placeholder="Enter Credit Card Number"
-                                ></b-form-input>
-                            </b-form-group>
-
-                            <b-form-group
-                                id="input-group-1"
-                                label="Date"
-                                label-for="input-1"
-                                    class="col-md-6" 
-                            >
-                                <!-- <v-date-picker
-                                    
-                                    v-model='date'
-                                /> -->
-                                <b-form-input v-model="date" class="input" type="date"></b-form-input>
-                            </b-form-group>
-
-                           <b-form-group      
-                                id="input-group-1"
-                                label="Select"
-                                label-for="input-1"
-                                class="col-md-6"
-                           >
-                                <b-form-select  
-                                   
-                                    :value="null"
-                                    :options="{ '1': 'One', '2': 'Two', '3': 'Three' }"
-                                    id="inline-form-custom-select-pref"
-                                    >
-                                    <option slot="first" :value="null">Choose...</option>
-                                </b-form-select>
-                           </b-form-group>
-
-                            <b-col md="12">
-                                <b-button class="mt-3" type="submit" variant="primary">Submit</b-button>
-                            </b-col>
-                            
-                        </b-row>
-                    </b-form>
-                </b-card>
-            </b-col>
-
-            <!-- switch -->
-            <b-col md="12 mb-30">
-                <b-card title="Switch">
-                    <label class="switch switch-primary mr-3">
-                        <span>Primary</span>
-                        <input type="checkbox" checked="">
-                        <span class="slider"></span>
-                    </label>
-
-                    <label class="switch switch-secondary mr-3">
-                        <span>Secondary</span>
-                        <input type="checkbox" checked="">
-                        <span class="slider"></span>
-                    </label>
-                    <label class="switch switch-success mr-3">
-                        <span>Success</span>
-                        <input type="checkbox" checked="">
-                        <span class="slider"></span>
-                    </label>
-                    <label class="switch switch-warning mr-3">
-                        <span>Warning</span>
-                        <input type="checkbox" checked="">
-                        <span class="slider"></span>
-                    </label>
-                    <label class="switch switch-danger mr-3">
-                        <span>Danger</span>
-                        <input type="checkbox" checked="">
-                        <span class="slider"></span>
-                    </label>
-                    <label class="switch switch-light mr-3">
-                        <span>Light</span>
-                        <input type="checkbox" checked="">
-                        <span class="slider"></span>
-                     </label>
-                     <label class="switch switch-dark mr-3">
-                        <span>Dark</span>
-                        <input type="checkbox" checked="">
-                        <span class="slider"></span>
-                    </label>
-
-                </b-card>
-            </b-col>
-
-            <!-- checkbox default -->
-            <b-col md="6" class="mb-30">
-                <b-card title="Checkbox Default">
-                    <label class="checkbox checkbox-primary">
-                        <input type="checkbox" checked="">
-                        <span>Primary</span>
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="checkbox checkbox-secondary">
-                        <input type="checkbox" checked="">
-                        <span>Secondary</span>
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="checkbox checkbox-success">
-                        <input type="checkbox" checked="">
-                        <span>Success</span>
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="checkbox checkbox-warning">
-                        <input type="checkbox" checked="">
-                        <span>Warning</span>
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="checkbox checkbox-danger">
-                        <input type="checkbox" checked="">
-                        <span>Danger</span>
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="checkbox checkbox-info">
-                        <input type="checkbox" checked="">
-                        <span>Info</span>
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="checkbox checkbox-dark">
-                        <input type="checkbox" checked="">
-                        <span>Dark</span>
-                        <span class="checkmark"></span>
-                    </label>
-                </b-card>
-            </b-col>
-
-
-            <!-- checkbox outline -->
-            <b-col md="6" class="mb-30">
-                <b-card title="Checkbox Outline">
-                   <label class="checkbox checkbox-outline-primary">
-                                <input type="checkbox" checked="">
-                                <span>Primary</span>
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="checkbox checkbox-outline-secondary">
-                                <input type="checkbox" checked="">
-                                <span>Secondary</span>
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="checkbox checkbox-outline-success">
-                                <input type="checkbox" checked="">
-                                <span>Success</span>
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="checkbox checkbox-outline-warning">
-                                <input type="checkbox" checked="">
-                                <span>Warning</span>
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="checkbox checkbox-outline-danger">
-                                <input type="checkbox" checked="">
-                                <span>Danger</span>
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="checkbox checkbox-outline-info">
-                                <input type="checkbox" checked="">
-                                <span>Info</span>
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="checkbox checkbox-outline-dark">
-                                <input type="checkbox" checked="">
-                                <span>Dark</span>
-                                <span class="checkmark"></span>
-                            </label>
-                </b-card>       
-            </b-col>
-
-            <!-- radio button -->
-            <b-col md="6" class="mb-30">
-                <b-card title="Radio Button">
-                    <label class="radio radio-primary">
-                        <input type="radio" name="radio"  >
-                            <span>Primary</span>
-                            <span class="checkmark"></span>
-                    </label>
-                    <label class="radio radio-secondary">
-                        <input type="radio" name="radio"  >
-                            <span>Secondary</span>
-                            <span class="checkmark"></span>
-                    </label>
-                    <label class="radio radio-success">
-                        <input type="radio" name="radio"  >
-                            <span>Success</span>
-                            <span class="checkmark"></span>
-                    </label>
-                    <label class="radio radio-warning">
-                        <input type="radio" name="radio" >
-                            <span>Warning</span>
-                            <span class="checkmark"></span>
-                    </label>
-                    <label class="radio radio-danger">
-                        <input type="radio" name="radio" >
-                            <span>Danger</span>
-                            <span class="checkmark"></span>
-                    </label>
-                    <label class="radio radio-light">
-                        <input type="radio" name="radio" >
-                            <span>Light</span>
-                            <span class="checkmark"></span>
-                    </label>
-                    <label class="radio radio-dark">
-                        <input type="radio" name="radio" >
-                            <span>Dark</span>
-                            <span class="checkmark"></span>
-                    </label>
-                </b-card>
-            </b-col>
-
-            <!-- radio button outline -->
-            <b-col md="6" class="mb-30">
-                <b-card title="Radio Button Outline">
-                    <label class="radio radio-outline-primary">
-                        <input type="radio" name="radio">
-                            <span>Primary</span>
-                            <span class="checkmark"></span>
-                    </label>
-                    <label class="radio radio-outline-secondary">
-                        <input type="radio" name="radio">
-                            <span>Secondary</span>
-                            <span class="checkmark"></span>
-                    </label>
-                    <label class="radio radio-outline-success">
-                        <input type="radio" name="radio">
-                            <span>Success</span>
-                            <span class="checkmark"></span>
-                    </label>
-                    <label class="radio radio-outline-warning">
-                        <input type="radio" name="radio">
-                            <span>Warning</span>
-                            <span class="checkmark"></span>
-                    </label>
-                    <label class="radio radio-outline-danger">
-                        <input type="radio" name="radio">
-                            <span>Danger</span>
-                            <span class="checkmark"></span>
-                    </label>
-                    <label class="radio radio-outline-light">
-                        <input type="radio" name="radio">
-                            <span>Danger</span>
-                            <span class="checkmark"></span>
-                    </label>
-                    <label class="radio radio-outline-dark">
-                        <input type="radio" name="radio">
-                            <span>Danger</span>
-                            <span class="checkmark"></span>
-                    </label>
-                </b-card>
-            </b-col>
-            
-        </b-row>
-    </div>
+        <template slot="table-row" slot-scope="props">
+          <span v-if="props.column.field == 'button'">
+            <a href="">
+              <i class="i-Eraser-2 text-25 text-success mr-2"></i>
+              {{ props.row.button }}</a
+            >
+            <a href="">
+              <i class="i-Close-Window text-25 text-danger"></i>
+              {{ props.row.button }}</a
+            >
+          </span>
+          <span v-else-if="props.column.field == 'name'">
+            <a href="">
+              <div class="ul-widget-app__profile-pic">
+                <img
+                  class="profile-picture avatar-sm mb-2 rounded-circle img-fluid"
+                  :src="props.row.avatar"
+                  alt=""
+                />
+                {{ props.row.name }}
+              </div>
+            </a>
+          </span>
+        </template>
+      </vue-good-table>
+    </b-card>
+  </div>
 </template>
-<script>
 
+<script>
 export default {
-     metaInfo: {
+  metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
-    title: "Basic Forms"
+    title: "Task Manager"
   },
-    data(){
-        return{
-            date:new Date(),
-            form:{
-                name:'',
-                email:'',
-                fName:'',
-                lName:'',
-                phone:''
-            },
-            selected: 'first',
-        options: [
-          { text: 'First radio', value: 'first' },
-          { text: 'Second radio', value: 'second' },
-          { text: 'Third radio', value: 'third' }
-        ]
-        };
+  data() {
+    return {
+      foods: ["apple", "orrange"],
+      columns: [
+        {
+          label: "Name",
+          field: "name"
+        },
+        {
+          label: "Email",
+          field: "email"
+        },
+        {
+          label: "Phone",
+          field: "phone"
+        },
+        {
+          label: "Span",
+          field: "span",
+          html: true
+        },
+
+        {
+          label: "Age",
+          field: "age"
+        },
+        {
+          label: "Joining Date",
+          field: "join"
+        },
+        {
+          label: "Salary",
+          field: "salary"
+        },
+        {
+          label: "Button",
+          field: "button",
+          html: true,
+          tdClass: "text-right",
+          thClass: "text-right"
+        }
+      ],
+      rows: [
+        {
+          id: 1,
+           avatar:"test",
+          name: "John",
+          email: "jhonwick_23@gmail.com",
+          phone: "+88012378478",
+          span: '<span class="badge badge-primary">Primary</span>',
+          join: "April 25, 2019",
+          age: "35 ",
+          salary: "$320,800"
+        },
+        {
+          id: 2,
+            avatar:"test",
+          name: "Jane",
+          email: "jameswann@gmail.com",
+          phone: "+88012378478",
+          span: '<span class="badge badge-danger">Primary</span>',
+          join: "April 34, 2019",
+          age: "31",
+          salary: "$320,800"
+        },
+        {
+          id: 3,
+            avatar:"test",
+          name: "Susan",
+          email: "jameswann@gmail.com",
+          phone: "+88012378478",
+          span: '<span class="badge badge-warning">Primary</span>',
+          join: "April 34, 2019",
+          age: "10",
+          salary: "$320,800"
+        },
+        {
+          id: 4,
+          avatar:"test",
+          name: "Chris",
+          email: "jhonwick_23@gmail.com",
+          phone: "+88012378478",
+          span: '<span class="badge badge-primary">Primary</span>',
+          join: "April 25, 2019",
+          age: "20",
+          salary: "$320,800"
+        },
+        {
+          id: 5,
+          avatar:"test",
+          name: "Dan",
+          email: "jhonwick_23@gmail.com",
+          phone: "+88012378478",
+          span: '<span class="badge badge-danger">Primary</span>',
+          join: "April 25, 2019",
+          age: "21",
+          salary: "$320,800"
+        },
+        {
+          id: 6,
+           avatar:"test",
+          name: "John",
+          email: "jameswann@gmail.com",
+          phone: "+88012378478",
+          span: '<span class="badge badge-success">success</span>',
+          join: "April 25, 2019",
+          age: "31",
+          salary: "$320,800"
+        },
+        {
+          id: 1,
+            avatar:"test",
+          name: "John",
+          email: "dan_brown@gmail.com",
+          phone: "+88012378478",
+          span: '<span class="badge badge-warning">Warning</span>',
+          join: "April 25, 2019",
+          age: "35 ",
+          salary: "$320,800"
+        },
+        {
+          id: 2,
+           avatar:"test",
+          name: "Jane",
+          email: "jameswann@gmail.com",
+          phone: "+88012378478",
+          span: '<span class="badge badge-info">Info</span>',
+          join: "April 25, 2019",
+          age: "11",
+          salary: "$320,800"
+        },
+        {
+          id: 3,
+           avatar:"test",
+          name: "Susan",
+          email: "janeswann@gmail.com",
+          phone: "+88012378478",
+          span: '<span class="badge badge-dark">Dark</span>',
+          join: "April 25, 2019",
+          age: "2011-10-30",
+          salary: "$320,800"
+        },
+        {
+          id: 4,
+           avatar:"test",
+          name: "Chris",
+          email: "jaasdameswann@gmail.com",
+          phone: "+88012378478",
+          span: '<span class="badge badge-warning">Warning</span>',
+          join: "April 25, 2019",
+          age: "20",
+          salary: "$320,800"
+        },
+        {
+          id: 5,
+           avatar:"test",
+          name: "Dan",
+          email: "doomwaytne@gmail.com",
+          phone: "+88012378478",
+          span: '<span class="badge badge-info">Info</span>',
+          join: "April 25, 2019",
+          age: "21",
+          salary: "$320,800"
+        },
+        {
+          id: 6,
+          avatar:"test",
+          name: "John",
+          email: "sidsacc@gmail.com",
+          phone: "+88012378478",
+          span: '<span class="badge badge-primary">Primary</span>',
+          join: "April 25, 2019",
+          age: "31",
+          salary: "$320,800"
+        }
+      ]
+    };
+  },
+  methods: {
+    addFile() {
+      console.log("hello");
     }
-}
+  }
+};
 </script>
+<style >
+</style>

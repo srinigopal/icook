@@ -20,7 +20,7 @@
                     <li class="nav-item" data-item="foods"><a class="nav-item-hold" href="#"><i class="nav-icon i-Computer-Secure"></i><span class="nav-text">Foods </span></a>
                         <div class="triangle"></div>
                     </li>
-                    <li class="nav-item" data-item="widgets"><a class="nav-item-hold" href="#"><i class="nav-icon i-Computer-Secure"></i><span class="nav-text">Orders </span></a>
+                    <li class="nav-item" data-item="orders"><a class="nav-item-hold" href="#"><i class="nav-icon i-Computer-Secure"></i><span class="nav-text">Orders </span></a>
                         <div class="triangle"></div>
                     </li>
                     <li class="nav-item" data-item="charts"><a class="nav-item-hold" href="#"><i class="nav-icon i-File-Clipboard-File--Text"></i><span class="nav-text">Payments</span></a>
@@ -60,6 +60,12 @@
 				
 				
 				
+				 <ul class="childNav" data-parent="orders">
+                    <li class="nav-item"><a href="/admin/organisation"><i class="nav-icon i-Clock-3"></i><span class="item-name">List Orders</span></a></li>
+                    <li class="nav-item"><a href="/admin/organisation/add"><i class="nav-icon i-Clock-3"></i><span class="item-name">Add Orders</span></a></li>
+                </ul>
+				
+				
 				 <ul class="childNav" data-parent="restaurant">
                     <li class="nav-item"><a href="/admin/organisation"><i class="nav-icon i-Clock-3"></i><span class="item-name">List Restaurants</span></a></li>
                     <li class="nav-item"><a href="/admin/organisation/add"><i class="nav-icon i-Clock-3"></i><span class="item-name">Add Restaurant</span></a></li>
@@ -71,8 +77,8 @@
                     
                 </ul>
                 <ul class="childNav" data-parent="foods">
-                    <li class="nav-item"><a href="/admin/food"><i class="nav-icon i-Add-File"></i><span class="item-name">Add Foods</span></a></li>
-                    <li class="nav-item"><a href="/admin/food/add"><i class="nav-icon i-Email"></i><span class="item-name">List Foods</span></a></li>
+                    <li class="nav-item"><a href="/admin/food"><i class="nav-icon i-Add-File"></i><span class="item-name">List cx Foods</span></a></li>
+                    <li class="nav-item"><a href="/admin/food/add"><i class="nav-icon i-Email"></i><span class="item-name">Add Foods</span></a></li>
                 </ul>
                 <ul class="childNav" data-parent="Orders">
                     <li class="nav-item"><a href="widget-card.html"><i class="nav-icon i-Receipt-4"></i><span class="item-name">List Orders</span></a></li>
@@ -83,12 +89,12 @@
                     
                 </ul>
                 <ul class="childNav" data-parent="categories">
-                    <li class="nav-item"><a href="/admin/category"><i class="nav-icon i-Crop-2"></i><span class="item-name">Add Categories</span></a></li>
-                    <li class="nav-item"><a href="/admin/category/add"><i class="nav-icon i-Loading-3"></i><span class="item-name">List Categories</span></a></li>
+                    <li class="nav-item"><a href="/admin/category"><i class="nav-icon i-Crop-2"></i><span class="item-name">List Categories</span></a></li>
+                    <li class="nav-item"><a href="/admin/category/add"><i class="nav-icon i-Loading-3"></i><span class="item-name">Add Categories</span></a></li>
                        </ul>
                 <ul class="childNav" data-parent="cuisines">
-                    <li class="nav-item"><a href="/admin/cuisine"><i class="nav-icon i-Bell1"></i><span class="item-name">Add Cuisines</span></a></li>
-                    <li class="nav-item"><a href="/admin/cuisine/add"><i class="nav-icon i-Split-Horizontal-2-Window"></i><span class="item-name">List Cuisines </span></a></li>
+                    <li class="nav-item"><a href="/admin/cuisine"><i class="nav-icon i-Bell1"></i><span class="item-name">List Cuisines</span></a></li>
+                    <li class="nav-item"><a href="/admin/cuisine/add"><i class="nav-icon i-Split-Horizontal-2-Window"></i><span class="item-name">Add Cuisines </span></a></li>
                                     </ul>
                 <ul class="childNav" data-parent="sessions">
                     <li class="nav-item"><a href="../sessions/signin.html"><i class="nav-icon i-Checked-User"></i><span class="item-name">Sign in</span></a></li>
