@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>GoIcook</title>
 
         
 
@@ -12,7 +12,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
        <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
+ {{-- scripts > app --}}
+        @stack('scripts') {{-- scripts > from views --}}
     </head>
 <body>
     <div id="app">

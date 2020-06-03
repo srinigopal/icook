@@ -225,11 +225,22 @@
     }
 
 
-	
+require('./_admin/scripts/bootstrap');
+require('./components/bootstrap');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('top-nav-component', require('./components/TopNav.vue').default);
 Vue.component('left-sidebar-component', require('./components/LeftSidebar.vue').default);
 Vue.component('breadcrumb-component', require('./components/Breadcrumb.vue').default);
+import BootstrapVue from "bootstrap-vue";
+import VueGoodTablePlugin from 'vue-good-table';
+
+// import the styles
+import 'vue-good-table/dist/vue-good-table.css'
+
+Vue.use(VueGoodTablePlugin);
+
+
+Vue.use(BootstrapVue)
 const app = new Vue({
     el: '#app',
 });

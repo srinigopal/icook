@@ -1798,7 +1798,7 @@ new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\l8\resources\js\_public\scripts\login\index.js */"./resources/js/_public/scripts/login/index.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\icook\resources\js\_public\scripts\login\index.js */"./resources/js/_public/scripts/login/index.js");
 
 
 /***/ })

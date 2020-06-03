@@ -16,6 +16,17 @@ class CreateOrganisationsTable extends Migration
         Schema::create('organisations', function (Blueprint $table) {
             $table->uuid('id')->primary();
 			$table->string('name'); 
+			$table->integer('delivery_range')->nullable();
+			$table->string('phone')->nullable();
+			$table->string('mobile')->nullable();
+			$table->text('address')->nullable();
+			$table->string('latitude')->nullable();
+			$table->string('longitude')->nullable();
+			$table->text('description')->nullable();
+			$table->text('information')->nullable();
+			$table->boolean('open_status')->nullable();
+			$table->boolean('status')->nullable();
+			$table->string('image')->nullable();
             $table->timestamps();
         });
     }

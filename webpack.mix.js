@@ -43,4 +43,4 @@ mix
        mix.js([ 'resources/js/_public/scripts/login/index.js' ], 'public/js/login/index.js');
 		
 		 //organisation
-       // mix.js([ 'resources/js/_public/scripts/organisation/index.js' ], 'public/js/organisation/index.js');
+       // mix.js([ 'resources/js/_admin/scripts/organisation/index.js' ], 'public/js/admin/organisation/index.js');

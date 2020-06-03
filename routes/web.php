@@ -30,12 +30,9 @@ Route::group(['middleware' => [  'auth:web' ]], function() {
 	
 	
 
-  /*  //admin routes - organisation admin role
+  //admin routes - organisation admin role
     Route::group([
-        'prefix' => 'admin',
-        'middleware' => [
-            'role:admin'
-        ]
+        'prefix' => 'admin'
     ], function() {
 
         //admin routes
@@ -44,7 +41,8 @@ Route::group(['middleware' => [  'auth:web' ]], function() {
         }
 
     });
-*/
-   
 
+   
+//Route::get('/admin/organization', 'OrganizationController@index')->name('organisation.list');
+//Route::get('/admin/organization/add', 'OrganizationController@store')->name('organisation.add');
 });

@@ -19,10 +19,6 @@ use Illuminate\Validation\ValidationException;
 
 Route::group([ 'middleware' => 'auth:sanctum'], function () {
 		
-	
-	
-		
-		
 		Route::get('/config', 'API\_Private\ConfigProfile');
 
 		/*Route::get('/config', function () {
@@ -43,9 +39,44 @@ Route::group([ 'middleware' => 'auth:sanctum'], function () {
 
 			return $payload;
 		});
-	
+	// organization	
+      
+		
 });
-
+		Route::group(['prefix' => 'organisation'], function () {
+			
+			Route::get('/', 'API\_Private\Organisation\OrganisationController@index');	
+			Route::get('/{id}', 'API\_Private\Organisation\OrganisationController@edit');	
+            Route::post('/', 'API\_Private\Organisation\OrganisationController@store');			
+			Route::patch('/', 'API\_Private\Organisation\OrganisationController@update');	
+		});
+		
+		
+		Route::group(['prefix' => 'category'], function () {
+			
+			Route::get('/', 'API\_Private\Category\CategoryController@index');	
+			Route::get('/{id}', 'API\_Private\Category\CategoryController@edit');	
+            Route::post('/', 'API\_Private\Category\CategoryController@store');			
+			Route::patch('/', 'API\_Private\Category\CategoryController@update');	
+		});
+		
+		
+		Route::group(['prefix' => 'cuisine'], function () {
+			
+			Route::get('/', 'API\_Private\Cuisine\CuisineController@index');	
+			Route::get('/{id}', 'API\_Private\Cuisine\CuisineController@edit');	
+            Route::post('/', 'API\_Private\Cuisine\CuisineController@store');			
+			Route::patch('/', 'API\_Private\Cuisine\CuisineController@update');	
+		});
+		
+		Route::group(['prefix' => 'food'], function () {
+			
+			Route::get('/', 'API\_Private\Food\FoodController@index');	
+			Route::get('/{id}', 'API\_Private\Food\FoodController@edit');	
+            Route::post('/', 'API\_Private\Food\FoodController@store');			
+			Route::patch('/', 'API\_Private\Food\FoodController@update');	
+		});
+		
 	// auth
     Route::group(['prefix' => 'auth'], function () {
 

@@ -22,9 +22,9 @@ class CreateFoodsTable extends Migration
 			$table->text('description')->nullable();
 			$table->text('ingredient')->nullable();
 			$table->decimal('base_price', 8, 2);	
-			$table->decimal('discount_price', 8, 2);	
+			$table->decimal('discount_price', 8, 2)->nullable();	
 			$table->string('unit')->nullable(); 
-			$table->integer('package_items_count')->default(1); 
+			$table->integer('package_items_count')->default(1)->nullable();	 
 			$table->integer('weight')->nullable(); 
 			$table->boolean('featured')->nullable();
 			$table->boolean('deliverable')->nullable();
