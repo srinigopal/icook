@@ -3,13 +3,13 @@
 @section('content')
   <div class="main-content">
 		<div class="breadcrumb">
-                    <h1>Food </h1>
-                    
+         <h1>Restaurants </h1>
+                   
         </div>
 		  <div class="separator-breadcrumb border-top"></div>
 		  
 		  
-		  <food-new></food-new>
+		  <organisation-new :id="'{{$id}}'"></organisation-new>
 				
 </div>
 @endsection

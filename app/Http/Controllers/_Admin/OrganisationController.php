@@ -17,5 +17,8 @@ class OrganisationController extends Controller
     {
         return view('superadmin.organisation.add');
     }
-
+	public function edit($id)
+    {
+        return view('superadmin.organisation.edit')->with('id',$id);
+    }
 }

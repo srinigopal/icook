@@ -232,8 +232,11 @@ export default {
                         resolve(response);
                     })
                     .catch(function(error) {
+						
                         if (error.response.status !== 200) {
                             if (error.response.data.status == 'formError') {
+								
+								
                                 thisComponent.formHandleError(
                                     error.response.data.errors
                                 );

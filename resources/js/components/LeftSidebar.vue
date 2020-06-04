@@ -77,7 +77,7 @@
                     
                 </ul>
                 <ul class="childNav" data-parent="foods">
-                    <li class="nav-item"><a href="/admin/food"><i class="nav-icon i-Add-File"></i><span class="item-name">List cx Foods</span></a></li>
+                    <li class="nav-item"><a href="/admin/food"><i class="nav-icon i-Clock-3"></i><span class="item-name">List Foods</span></a></li>
                     <li class="nav-item"><a href="/admin/food/add"><i class="nav-icon i-Email"></i><span class="item-name">Add Foods</span></a></li>
                 </ul>
                 <ul class="childNav" data-parent="Orders">

@@ -16,14 +16,14 @@
                                     
                             >
                                 <b-form-input
-                                
+                                :class="{ 'is-invalid': formIsInvalid('model.name') }" 
                                 id="name"
                                 v-model="model.name"
                                 type="text"
                                 required
                                 placeholder="Name"
                                 ></b-form-input>
-								
+								<div class="invalid-feedback" v-if="formIsInvalid('model.name')" v-html="form.errorList['model.name']"></div>
                         </b-form-group>
                         
                       <b-form-group
@@ -35,13 +35,14 @@
                                 
                             >
                                 <b-form-input
-                                
+                                :class="{ 'is-invalid': formIsInvalid('model.phone') }" 
                                 id="input-1"
                                 v-model="form.phone"
                                 type="text"
                                 required
                                 placeholder="put your phone number"
                                 ></b-form-input>
+								<div class="invalid-feedback" v-if="formIsInvalid('model.phone')" v-html="form.errorList['model.phone']"></div>
                             </b-form-group>
                         <b-form-group
                                 class="col-md-6 mb-3" 
@@ -68,13 +69,14 @@
                                 class="col-md-6" 
                             >
                                 <b-form-input
-                            
+                            :class="{ 'is-invalid': formIsInvalid('model.address') }" 
                                 id="input-1"
                                 v-model="form.address"
                                 type="text"
                                 required
                                 placeholder="Enter Address"
                                 ></b-form-input>
+								<div class="invalid-feedback" v-if="formIsInvalid('model.address')" v-html="form.errorList['model.address']"></div>
                             </b-form-group>
 							
 							
@@ -146,8 +148,10 @@
 							
 
                          
+                         
                             <b-col md="12">
-                                <b-button class="mt-3" type="button" variant="primary" v-on:click="addOrganisation">Submit</b-button>
+                                <b-button v-if="id" class="mt-3" type="button" variant="primary" v-on:click="addOrganisation">Update</b-button>
+                                <b-button v-else class="mt-3" type="button" variant="primary" v-on:click="addOrganisation">Submit</b-button>
                             </b-col>
                             
                         </b-row>
@@ -212,6 +216,19 @@ export default {
                     thisComponent._initComponent()
                  
 
+            }, getModel: function() {
+               
+                var thisComponent = this;
+
+                thisComponent.formGetModel('organisation/01a6a404-92ab-4c7c-abdd-3e11bd2b85c8')
+                    .then(function(response) {                    
+                     
+                      
+
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    }); 
             },
 			 _setupObservers: function() {
 
@@ -265,6 +282,25 @@ export default {
 						});
 
 				} ,// Blank all form fields
+				
+				getModel: function() {
+
+				var thisComponent = this;
+
+				thisComponent.flag.modelGetState = 'ATTEMPTING';
+
+				var thisComponent = this;
+
+				return thisComponent.formGetModel('organisation/' + thisComponent.id).then(function(response) {
+				thisComponent.model=response.data.data;
+				
+				
+				})
+					.catch(function(error) {
+						console.log(error);
+					});
+
+			},
             _initComponent: function() {
 
                 var thisComponent = this;
@@ -275,6 +311,8 @@ export default {
                 //reset working model state to unmodified
                 thisComponent.flag.modelState =  'UNMODIFIED';
 				// thisComponent._setupObservers();
+				if(thisComponent.id)
+				thisComponent.getModel();
             },
 
 			
@@ -282,6 +320,9 @@ export default {
 		 mixins: [
             Form
         ]
+		,props: [
+			'id'
+		]
 
 		
 

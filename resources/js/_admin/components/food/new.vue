@@ -3,7 +3,7 @@
        
         <b-row>
             <b-col md="12 mb-30">
-                <b-card title="Create Restaurant">
+                <b-card title="Create Food Menu">
                     
                     <b-form>
                         <b-row>
@@ -16,13 +16,15 @@
                                     
                             >
                                 <b-form-input
-                                
+                                :class="{ 'is-invalid': formIsInvalid('model.name') }" 
                                 id="input-1"
                                 v-model="model.name"
                                 type="text"
                                 required
                                 placeholder="Name"
                                 ></b-form-input>
+								
+								<div class="invalid-feedback" v-if="formIsInvalid('model.name')" v-html="form.errorList['model.name']"></div>
                         </b-form-group>
                         
 						<b-form-group
@@ -36,10 +38,13 @@
                                 
                                 id="input-1"
                                 v-model="model.base_price"
+								:class="{ 'is-invalid': formIsInvalid('model.base_price') }" 
                                 type="text"
                                 required
                                 placeholder="Base Price"
-                                ></b-form-input>
+                                >
+								
+								</b-form-input><div class="invalid-feedback" v-if="formIsInvalid('model.base_price')" v-html="form.errorList['model.base_price']"></div>
                         </b-form-group>
 								
 								
@@ -58,6 +63,7 @@
                                 required
                                 placeholder="Discount Price"
                                 ></b-form-input>
+								
                         </b-form-group>		
 								
 								

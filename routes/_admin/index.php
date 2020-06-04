@@ -8,6 +8,7 @@ Route::prefix('organisation')->group(function () {
 	
     Route::get('/', '_Admin\OrganisationController@index')->name('admin.organisation.index');
     Route::get('/add', '_Admin\OrganisationController@add')->name('admin.organisation.add');
+    Route::get('/edit/{id}', '_Admin\OrganisationController@edit')->name('admin.organisation.edit');
 	
 });
 

@@ -28,12 +28,16 @@ class OrganisationRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
         ];
     }
 	  public function messages()
     {
         return [
-            'name.required' => 'We need your organization name',
+            'name.required' => 'We need your organization Name',
+            'address.required' => 'We need organization Address',
+            'phone.required' => 'We need organization Phone Number',
             
            
         ];

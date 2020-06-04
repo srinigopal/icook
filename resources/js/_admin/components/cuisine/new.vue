@@ -16,13 +16,14 @@
                                     
                             >
                                 <b-form-input
-                                
+                                :class="{ 'is-invalid': formIsInvalid('model.name') }" 
                                 id="input-1"
                                 v-model="model.name"
                                 type="text"
                                 required
                                 placeholder="Name"
                                 ></b-form-input>
+								<div class="invalid-feedback" v-if="formIsInvalid('model.name')" v-html="form.errorList['model.name']"></div>
                         </b-form-group>
                         
                 

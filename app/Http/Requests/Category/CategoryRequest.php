@@ -33,7 +33,7 @@ class CategoryRequest extends FormRequest
 	  public function messages()
     {
         return [
-            'name.required' => 'We need your organization name',
+            'name.required' => 'We need your Category name',
             
            
         ];

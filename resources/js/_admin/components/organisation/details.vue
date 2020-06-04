@@ -73,7 +73,7 @@
 
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'button'">
-            <a href="">
+            <a href="/admin/organisation/edit/01a6a404-92ab-4c7c-abdd-3e11bd2b85c8">
               <i class="i-Eraser-2 text-25 text-success mr-2"></i>
               {{ props.row.button }}</a
             >
