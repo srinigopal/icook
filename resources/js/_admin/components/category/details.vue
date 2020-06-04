@@ -101,6 +101,9 @@
 </template>
 
 <script>
+
+//mixins
+    import Form from '@/_common/mixins/form.js';
 export default {
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -115,31 +118,10 @@ export default {
           field: "name"
         },
         {
-          label: "Email",
-          field: "email"
+          label: "Description",
+          field: "description"
         },
-        {
-          label: "Phone",
-          field: "phone"
-        },
-        {
-          label: "Span",
-          field: "span",
-          html: true
-        },
-
-        {
-          label: "Age",
-          field: "age"
-        },
-        {
-          label: "Joining Date",
-          field: "join"
-        },
-        {
-          label: "Salary",
-          field: "salary"
-        },
+   
         {
           label: "Button",
           field: "button",
@@ -148,147 +130,71 @@ export default {
           thClass: "text-right"
         }
       ],
-      rows: [
-        {
-          id: 1,
-           avatar:"test",
-          name: "John",
-          email: "jhonwick_23@gmail.com",
-          phone: "+88012378478",
-          span: '<span class="badge badge-primary">Primary</span>',
-          join: "April 25, 2019",
-          age: "35 ",
-          salary: "$320,800"
-        },
-        {
-          id: 2,
-            avatar:"test",
-          name: "Jane",
-          email: "jameswann@gmail.com",
-          phone: "+88012378478",
-          span: '<span class="badge badge-danger">Primary</span>',
-          join: "April 34, 2019",
-          age: "31",
-          salary: "$320,800"
-        },
-        {
-          id: 3,
-            avatar:"test",
-          name: "Susan",
-          email: "jameswann@gmail.com",
-          phone: "+88012378478",
-          span: '<span class="badge badge-warning">Primary</span>',
-          join: "April 34, 2019",
-          age: "10",
-          salary: "$320,800"
-        },
-        {
-          id: 4,
-          avatar:"test",
-          name: "Chris",
-          email: "jhonwick_23@gmail.com",
-          phone: "+88012378478",
-          span: '<span class="badge badge-primary">Primary</span>',
-          join: "April 25, 2019",
-          age: "20",
-          salary: "$320,800"
-        },
-        {
-          id: 5,
-          avatar:"test",
-          name: "Dan",
-          email: "jhonwick_23@gmail.com",
-          phone: "+88012378478",
-          span: '<span class="badge badge-danger">Primary</span>',
-          join: "April 25, 2019",
-          age: "21",
-          salary: "$320,800"
-        },
-        {
-          id: 6,
-           avatar:"test",
-          name: "John",
-          email: "jameswann@gmail.com",
-          phone: "+88012378478",
-          span: '<span class="badge badge-success">success</span>',
-          join: "April 25, 2019",
-          age: "31",
-          salary: "$320,800"
-        },
-        {
-          id: 1,
-            avatar:"test",
-          name: "John",
-          email: "dan_brown@gmail.com",
-          phone: "+88012378478",
-          span: '<span class="badge badge-warning">Warning</span>',
-          join: "April 25, 2019",
-          age: "35 ",
-          salary: "$320,800"
-        },
-        {
-          id: 2,
-           avatar:"test",
-          name: "Jane",
-          email: "jameswann@gmail.com",
-          phone: "+88012378478",
-          span: '<span class="badge badge-info">Info</span>',
-          join: "April 25, 2019",
-          age: "11",
-          salary: "$320,800"
-        },
-        {
-          id: 3,
-           avatar:"test",
-          name: "Susan",
-          email: "janeswann@gmail.com",
-          phone: "+88012378478",
-          span: '<span class="badge badge-dark">Dark</span>',
-          join: "April 25, 2019",
-          age: "2011-10-30",
-          salary: "$320,800"
-        },
-        {
-          id: 4,
-           avatar:"test",
-          name: "Chris",
-          email: "jaasdameswann@gmail.com",
-          phone: "+88012378478",
-          span: '<span class="badge badge-warning">Warning</span>',
-          join: "April 25, 2019",
-          age: "20",
-          salary: "$320,800"
-        },
-        {
-          id: 5,
-           avatar:"test",
-          name: "Dan",
-          email: "doomwaytne@gmail.com",
-          phone: "+88012378478",
-          span: '<span class="badge badge-info">Info</span>',
-          join: "April 25, 2019",
-          age: "21",
-          salary: "$320,800"
-        },
-        {
-          id: 6,
-          avatar:"test",
-          name: "John",
-          email: "sidsacc@gmail.com",
-          phone: "+88012378478",
-          span: '<span class="badge badge-primary">Primary</span>',
-          join: "April 25, 2019",
-          age: "31",
-          salary: "$320,800"
-        }
-      ]
+      rows: [  ]
     };
   },
   methods: {
-    addFile() {
-      console.log("hello");
-    }
-  }
+	   _setupListeners: function() {
+
+                var thisComponent = this;
+                
+                    thisComponent._initComponent()
+                 
+
+            },
+			 _setupObservers: function() {
+
+							var thisComponent = this;
+
+							//remove any existing watchers if present
+							if (typeof(thisComponent.observers.unwatchModel) === 'function') {
+								thisComponent.observers.unwatchModel();
+							}
+
+							//instantiate unwatcher for model observer
+							thisComponent.observers.unwatchModel = thisComponent.$watch('model', {
+								handler: function(newValue, oldValue) {
+									thisComponent.flag.modelState = 'MODIFIED';
+								},
+								deep: true
+							});
+
+			},
+			 getModel: function () {
+
+                var thisComponent = this;
+
+                //get config
+                axios.get('/api/category')
+                    .then(function(response) {
+
+                 thisComponent.rows = response.data.data;
+
+
+                    })
+                    .catch(function(response) {
+                        vueStore.commit('configGetState', 'FAILED'); //TODO - redirect to some error page
+                    })
+
+            },
+            _initComponent: function() {
+
+                var thisComponent = this;
+
+                
+                thisComponent.getModel();
+            },
+
+			
+        },
+  mounted: function() {
+            this._initComponent();
+        },
+		mixins: [
+            Form
+        ]
+
+		
 };
 </script>
 <style >

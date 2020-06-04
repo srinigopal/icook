@@ -5,7 +5,7 @@
             <b-col md="12 mb-30">
                 <b-card title="Create Restaurant">
                     
-                    <b-form>
+            <b-form>
                         <b-row>
 
                         <b-form-group
@@ -17,12 +17,13 @@
                             >
                                 <b-form-input
                                 
-                                id="input-1"
-                                v-model="form.fName"
+                                id="name"
+                                v-model="model.name"
                                 type="text"
                                 required
                                 placeholder="Name"
                                 ></b-form-input>
+								
                         </b-form-group>
                         
                       <b-form-group
@@ -146,7 +147,7 @@
 
                          
                             <b-col md="12">
-                                <b-button class="mt-3" type="submit" variant="primary">Submit</b-button>
+                                <b-button class="mt-3" type="button" variant="primary" v-on:click="addOrganisation">Submit</b-button>
                             </b-col>
                             
                         </b-row>
@@ -165,29 +166,124 @@
     </div>
 </template>
 <script>
-
+  import Form from '@/_common/mixins/form.js';
 export default {
      metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
-    title: "Basic Forms"
+    title: "Organisation Add"
   },
     data(){
-        return{
-            date:new Date(),
-            form:{
-                name:'',
-                email:'',
-                fName:'',
-                lName:'',
-                phone:''
+        return{	
+		
+		 flag: {
+                    modelState: 'UNMODIFIED'
+                },
+                observers: {},
+		 model: {
+                    name:null,
+                    phone: null,
+                    mobile: null,
+                    address: null,
+                    latitude: null,
+                    longitude: null,
+                    description: null,
+                    information: null,
+                    open_status: null,
+                    status: null,
+                },
+			//model: null            
+       
+        }
+    },	
+	
+	 mounted: function() {
+
+            var thisComponent = this;
+
+            thisComponent._setupListeners();
+
+        },
+
+	 methods: {
+	   _setupListeners: function() {
+
+                var thisComponent = this;
+                
+                    thisComponent._initComponent()
+                 
+
             },
-            selected: 'first',
-        options: [
-          { text: 'First radio', value: 'first' },
-          { text: 'Second radio', value: 'second' },
-          { text: 'Third radio', value: 'third' }
+			 _setupObservers: function() {
+
+							var thisComponent = this;
+
+							//remove any existing watchers if present
+							if (typeof(thisComponent.observers.unwatchModel) === 'function') {
+								thisComponent.observers.unwatchModel();
+							}
+
+							//instantiate unwatcher for model observer
+							thisComponent.observers.unwatchModel = thisComponent.$watch('model', {
+								handler: function(newValue, oldValue) {
+									thisComponent.flag.modelState = 'MODIFIED';
+								},
+								deep: true
+							});
+
+			},
+			addOrganisation: function () {
+					
+					var thisComponent = this;
+
+					thisComponent.formPostModel('organisation')
+						.then(function(response) {
+						
+						console.log('------------------------------------');
+						console.log(response.data);
+						console.log('------------------------------------');
+
+							// Insert the ID of the newly created person to model
+						//	thisComponent.model = response.data;
+
+						        thisComponent.$swal({
+									position: "top-end",
+									type: "success",
+									title: "Your work has been saved",
+									showConfirmButton: false,
+									timer: 1500
+								});
+						})
+						
+						.catch( function(error) {
+						
+							 thisComponent.$swal({
+								type: "error",
+								title: "Oops...",
+								text: "Something went wrong!",
+								footer: "<a href>Why do I have this issue?</a>"
+							  });
+						});
+
+				} ,// Blank all form fields
+            _initComponent: function() {
+
+                var thisComponent = this;
+ 
+                //clone initial base model to working model
+                //thisComponent.model = _.cloneDeep(thisComponent.baseModel);
+
+                //reset working model state to unmodified
+                thisComponent.flag.modelState =  'UNMODIFIED';
+				// thisComponent._setupObservers();
+            },
+
+			
+        },
+		 mixins: [
+            Form
         ]
-        };
-    }
+
+		
+
 }
 </script>

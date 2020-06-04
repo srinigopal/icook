@@ -18,99 +18,14 @@
                                 <b-form-input
                                 
                                 id="input-1"
-                                v-model="form.fName"
+                                v-model="model.name"
                                 type="text"
                                 required
                                 placeholder="Name"
                                 ></b-form-input>
                         </b-form-group>
                         
-                      <b-form-group
-                                class="col-md-6 mb-3" 
-                                id="input-group-1"
-                                label="Phone Number:"
-                                label-for="input-1"
-                               
-                                
-                            >
-                                <b-form-input
-                                
-                                id="input-1"
-                                v-model="form.phone"
-                                type="text"
-                                required
-                                placeholder="put your phone number"
-                                ></b-form-input>
-                            </b-form-group>
-                        <b-form-group
-                                class="col-md-6 mb-3" 
-                                id="input-group-1"
-                                label="Mobile:"
-                                label-for="input-1"
-                               
-                                
-                            >
-                                <b-form-input
-                                
-                                id="input-1"
-                                v-model="form.mobile"
-                                type="text"
-                                required
-                                placeholder="put your mobile"
-                                ></b-form-input>
-                            </b-form-group>
-
-                            <b-form-group
-                                id="input-group-1"
-                                label="Address"
-                                label-for="input-1"
-                                class="col-md-6" 
-                            >
-                                <b-form-input
-                            
-                                id="input-1"
-                                v-model="form.address"
-                                type="text"
-                                required
-                                placeholder="Enter Address"
-                                ></b-form-input>
-                            </b-form-group>
-							
-							
-							
-							 <b-form-group
-                                id="input-group-1"
-                                label="Latitude"
-                                label-for="input-1"
-                                class="col-md-6" 
-                            >
-                                <b-form-input
-                            
-                                id="input-1"
-                                v-model="form.latitude"
-                                type="text"
-                                required
-                                placeholder="Enter Latitude"
-                                ></b-form-input>
-                            </b-form-group>
-							
-							
-							 <b-form-group
-                                id="input-group-1"
-                                label="Longitude"
-                                label-for="input-1"
-                                class="col-md-6" 
-                            >
-                                <b-form-input
-                            
-                                id="input-1"
-                                v-model="form.longitude"
-                                type="text"
-                                required
-                                placeholder="Enter Longitude"
-                                ></b-form-input>
-                            </b-form-group>
-
+                
 								
 							<b-form-group
                                 id="input-group-1"
@@ -121,6 +36,8 @@
 								
 							<b-form-textarea
 							id="textarea-small"
+							
+							v-model="model.description"
 							size="sm"
 							placeholder="Small textarea"
 							>
@@ -128,25 +45,12 @@
 						 </b-form-group>	
 
 
-<b-form-group
-                                id="input-group-1"
-                                label="Information"
-                                label-for="input-1"
-                                class="col-md-6" 
-                            >
-								
-							<b-form-textarea
-							id="textarea-small"
-							size="sm"
-							placeholder="Small textarea"
-							>
-							</b-form-textarea>
-						 </b-form-group>							 
+											 
 							
 
                          
                             <b-col md="12">
-                                <b-button class="mt-3" type="submit" variant="primary">Submit</b-button>
+                                <b-button class="mt-3" type="submit" variant="primary" v-on:click="addCategory" >Submit</b-button>
                             </b-col>
                             
                         </b-row>
@@ -165,29 +69,104 @@
     </div>
 </template>
 <script>
-
+  import Form from '@/_common/mixins/form.js';
 export default {
      metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
-    title: "Basic Forms"
+    title: "Category Add"
   },
     data(){
-        return{
-            date:new Date(),
-            form:{
-                name:'',
-                email:'',
-                fName:'',
-                lName:'',
-                phone:''
+        return{	
+		
+		 flag: {
+                    modelState: 'UNMODIFIED'
+                },
+                observers: {},
+		 baseModel: {
+                    name:null,
+                    description: null
+                },
+			model: null            
+       
+        }
+    },	
+	
+	 mounted: function() {
+
+            var thisComponent = this;
+
+            thisComponent._setupListeners();
+
+        },
+
+	 methods: {
+	   _setupListeners: function() {
+
+                var thisComponent = this;
+                
+                    thisComponent._initComponent()
+                 
+
             },
-            selected: 'first',
-        options: [
-          { text: 'First radio', value: 'first' },
-          { text: 'Second radio', value: 'second' },
-          { text: 'Third radio', value: 'third' }
+			 _setupObservers: function() {
+
+							var thisComponent = this;
+
+							//remove any existing watchers if present
+							if (typeof(thisComponent.observers.unwatchModel) === 'function') {
+								thisComponent.observers.unwatchModel();
+							}
+
+							//instantiate unwatcher for model observer
+							thisComponent.observers.unwatchModel = thisComponent.$watch('model', {
+								handler: function(newValue, oldValue) {
+									thisComponent.flag.modelState = 'MODIFIED';
+								},
+								deep: true
+							});
+
+			},
+			addCategory: function () {
+					
+					var thisComponent = this;
+
+					thisComponent.formPostModel('category')
+						.then(function(response) {
+						
+						console.log('------------------------------------');
+						console.log(response.data);
+						console.log('------------------------------------');
+
+							// Insert the ID of the newly created person to model
+							thisComponent.model = response.data
+
+						   // vueEventBus.$emit('added-new-parent', thisComponent.model);
+
+						})
+						.catch( function(error) {
+							console.log(error);
+						});
+
+				} ,// Blank all form fields
+            _initComponent: function() {
+
+                var thisComponent = this;
+
+                //clone initial base model to working model
+                thisComponent.model = _.cloneDeep(thisComponent.baseModel);
+
+                //reset working model state to unmodified
+                thisComponent.flag.modelState =  'UNMODIFIED';
+				 thisComponent._setupObservers();
+            },
+
+			
+        },
+		 mixins: [
+            Form
         ]
-        };
-    }
+
+		
+
 }
 </script>

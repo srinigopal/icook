@@ -31,23 +31,11 @@ class CuisineController extends ApiController
 
         if (! $payload) {
 
-            //TODO - Log and handle - should always have an result
-
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    'Unable to process request',
-                ],
-                'payload' => null
-            ], 404);
+            return $this->notFoundErrorResponse('Cuisine not found', 404);
 
         }
 
-        return response()->json([
-            'status' => 'success',
-            'errors' => null,
-            'payload' => $payload
-        ], 200);
+        return  $this->successResponse($payload);
 
     }
 	public function store(CuisineRequest $request)

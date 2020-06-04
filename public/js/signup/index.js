@@ -2132,13 +2132,12 @@ __webpack_require__.r(__webpack_exports__);
       return new Promise(function (resolve, reject) {
         return axios({
           method: 'post',
-          url: '/api/v1/' + url,
+          url: '/api/' + url,
           data: thisComponent.model
         }).then(function (response) {
-          if (response.data.redirect) {
-            window.location.replace(response.data.redirect);
-          }
-
+          //   if (response.data.redirect) {
+          //  window.location.replace(response.data.redirect);
+          // }
           resolve(response);
         })["catch"](function (error) {
           if (error.response.status !== 200) {
@@ -2189,10 +2188,10 @@ __webpack_require__.r(__webpack_exports__);
       return new Promise(function (resolve, reject) {
         axios({
           method: 'get',
-          url: '/api/v1/' + url
+          url: '/api/' + url
         }).then(function (response) {
           //set base model to keep an unmodified state
-          thisComponent.baseModel = response.data.payload; //setup working model from base model
+          thisComponent.baseModel = response.data; //setup working model from base model
 
           thisComponent.model = _.cloneDeep(thisComponent.baseModel);
           thisComponent.flag.modelGetState = 'SUCCESS';

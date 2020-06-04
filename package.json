@@ -34,6 +34,7 @@
     },
     "dependencies": {
         "laravel-mix-alias": "^1.0.2",
-        "validate.js": "^0.13.1"
+        "validate.js": "^0.13.1",
+        "vue-sweetalert2": "^3.0.5"
     }
 }

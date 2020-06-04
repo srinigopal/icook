@@ -169,13 +169,13 @@ export default {
 
                 return axios({
                     method: 'post',
-                    url: '/api/v1/' + url,
+                    url: '/api/' + url,
                     data: thisComponent.model
-                }).then(function(response) {
+                }).then(function(response) { 
 
-                        if (response.data.redirect) {
-                            window.location.replace(response.data.redirect);
-                        }
+                     //   if (response.data.redirect) {
+                          //  window.location.replace(response.data.redirect);
+                       // }
 
                         resolve(response);
 
@@ -260,11 +260,11 @@ export default {
 
                 axios({
                     method: 'get',
-                    url: '/api/v1/' + url
+                    url: '/api/' + url
                 }).then(function(response) {
 
                     //set base model to keep an unmodified state
-                    thisComponent.baseModel = response.data.payload;
+                    thisComponent.baseModel = response.data;
 
                     //setup working model from base model
                     thisComponent.model = _.cloneDeep(thisComponent.baseModel);

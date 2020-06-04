@@ -33,26 +33,17 @@ class CategoryController extends ApiController
 
             //TODO - Log and handle - should always have an result
 
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    'Unable to process request',
-                ],
-                'payload' => null
-            ], 404);
+            return $this->notFoundErrorResponse('Category not found', 404);
 
         }
-
-        return response()->json([
-            'status' => 'success',
-            'errors' => null,
-            'payload' => $payload
-        ], 200);
-
+		return  $this->successResponse($payload);
+    
     }
 	public function store(CategoryRequest $request)
     {
         $payload = $request->all();
+		
+		
 		try {
 
             DB::beginTransaction();
@@ -80,8 +71,6 @@ class CategoryController extends ApiController
 
        $payload = $request->all();
 		try {
-
-
             
             DB::beginTransaction();
 			

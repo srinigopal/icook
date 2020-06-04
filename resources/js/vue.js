@@ -245,7 +245,17 @@ import 'vue-good-table/dist/vue-good-table.css'
 
 Vue.use(VueGoodTablePlugin);
 
+import VueSweetalert2 from 'vue-sweetalert2';
+ 
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
 
+const options = {
+    confirmButtonColor: '#41b882',
+    cancelButtonColor: '#ff7674'
+  }
+ 
+Vue.use(VueSweetalert2,options);
 Vue.use(BootstrapVue)
 const app = new Vue({
     el: '#app',

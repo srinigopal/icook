@@ -43,12 +43,7 @@ class FoodController extends ApiController
 
         }
 
-        return response()->json([
-            'status' => 'success',
-            'errors' => null,
-            'payload' => $payload
-        ], 200);
-
+        return  $this->successResponse($payload);
     }
 	public function store(FoodRequest $request)
     {

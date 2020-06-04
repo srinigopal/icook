@@ -16,7 +16,7 @@ trait ApiResponser{
 			'status'=> 'Success', 
 			'message' => $message, 
 			'errors' => null,
-			'payload' => $data
+			'data' => $data
 		], $code);
 	}
 
@@ -26,7 +26,7 @@ trait ApiResponser{
 			'status'=>'Error',
 			'message' => null,
 			'errors' => $message,
-			'payload' => null
+			'data' => null
 		], $code);
 	}
 	
@@ -38,7 +38,7 @@ trait ApiResponser{
 			'errors' => [
                         $message
                     ],
-			'payload' => null
+			'data' => null
 		], $code);
 	}
 
