@@ -3,7 +3,7 @@
        
         <b-row>
             <b-col md="12 mb-30">
-                <b-card title="Create Food Menu">
+                <b-card title="">
                     
                     <b-form>
                         <b-row>
@@ -39,7 +39,7 @@
                                 id="input-1"
                                 v-model="model.base_price"
 								:class="{ 'is-invalid': formIsInvalid('model.base_price') }" 
-                                type="text"
+                                type="number"
                                 required
                                 placeholder="Base Price"
                                 >
@@ -59,13 +59,105 @@
                                 
                                 id="input-1"
                                 v-model="model.discount_price"
-                                type="text"
+                                type="number"
                                 required
                                 placeholder="Discount Price"
                                 ></b-form-input>
 								
                         </b-form-group>		
 								
+							<b-form-group
+                                class="col-md-6 mb-3" 
+                                id="input-group-1"
+                                label="Unit"
+                                label-for="input-1"
+                                    
+                            >
+                                <b-form-input
+                                
+                                id="input-1"
+                                v-model="model.unit"
+                                type="number"
+                                required
+                                placeholder="Unit"
+                                ></b-form-input>
+								
+                        </b-form-group>						
+						<b-form-group
+                                class="col-md-6 mb-3" 
+                                id="input-group-1"
+                                label="Package Item Count"
+                                label-for="input-1"
+                                    
+                            >
+                                <b-form-input
+                                
+                                id="input-1"
+                                v-model="model.package_items_count"
+                                type="number"
+                                required
+                                placeholder="Package Item Count"
+                                ></b-form-input>
+								
+                        </b-form-group>		
+						
+						<b-form-group
+                                class="col-md-6 mb-3" 
+                                id="input-group-1"
+                                label="Weight"
+                                label-for="input-1"
+                                    
+                            >
+                                <b-form-input
+                                
+                                id="input-1"
+                                v-model="model.weight"
+                                type="number"
+                                required
+                                placeholder="Weight"
+                                ></b-form-input>
+								
+                        </b-form-group>		
+								
+								
+							<b-form-group
+                                class="col-md-6 mb-3" 
+                                id="input-group-1"
+                                label="Featured"
+                                label-for="input-1"
+                                    
+                            >
+                                <b-form-checkbox
+								  id="featured"
+								  v-model="model.featured"
+								  name="featured"
+								  value="1"
+								  unchecked-value="0"
+								>
+								 Featured
+								</b-form-checkbox>
+								
+                        </b-form-group>			
+						
+						
+						<b-form-group
+                                class="col-md-6 mb-3" 
+                                id="input-group-1"
+                                label="Deliverable food"
+                                label-for="input-1"
+                                    
+                            >
+                                <b-form-checkbox
+								  id="deliverable"
+								   v-model="model.deliverable"
+								  name="deliverable"
+								  value="1"
+								  unchecked-value="0"
+								>
+								 Deliverable food
+								</b-form-checkbox>
+								
+                        </b-form-group>			
 								
 								
 							<b-form-group
@@ -88,11 +180,14 @@
 
 											 
 							
-
+							<b-col md="12">
+                                <b-button v-if="id" class="mt-3" type="button" variant="primary" v-on:click="updateFood" >Update</b-button>
+                                <b-button v-else class="mt-3" type="button" variant="primary" v-on:click="addFood">Submit</b-button>
+                            </b-col>					 
+							
+	
                          
-                            <b-col md="12">
-                                <b-button class="mt-3" type="button" variant="primary" v-on:click="addFood" >Submit</b-button>
-                            </b-col>
+                           
                             
                         </b-row>
                     </b-form>
@@ -123,11 +218,19 @@ export default {
                     modelState: 'UNMODIFIED'
                 },
                 observers: {},
-		model: {
+				
+		baseModel: {
                     name:null,
                     description: null,
-                    base_price: null
+                    base_price: null,
+                    discount_price: null,
+                    unit: null,
+                    package_items_count: null,
+                    weight: null,
+                    featured: 0,
+                    deliverable: 0,
                 },
+				model:null,
 		         
        
         }
@@ -168,6 +271,36 @@ export default {
 							});
 
 			},
+			getModel: function() {
+               
+                var thisComponent = this;
+
+                thisComponent.formGetModel('food/'+thisComponent.id)
+                    .then(function(response) {                    
+                     
+                      
+
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    }); 
+            },
+				updateFood: function () {
+
+					var thisComponent = this;
+
+					thisComponent.formPatchModel('food')
+						.then(function(response) {
+
+						  thisComponent.model=response.data.data;
+
+								thisComponent.makeVariantToast('success','Food Menu Updated Successfully')
+						})
+						.catch( function(error) {
+							 thisComponent.makeVariantToast('danger','Something wrong in updaing food menu')
+						});
+					
+				},
 			addFood: function () {
 					
 					var thisComponent = this;
@@ -182,17 +315,11 @@ export default {
 							// Insert the ID of the newly created person to model
 							thisComponent.model = response.data
 
-						   thisComponent.$swal({
-									position: "top-end",
-									type: "success",
-									title: "Your work has been saved",
-									showConfirmButton: false,
-									timer: 1500
-								});
+						  thisComponent.makeVariantToast('success','Food Menu Added Successfully')
 
 						})
 						.catch( function(error) {
-							console.log(error);
+							thisComponent.makeVariantToast('danger','Something wrong in updaing food menu')
 						});
 
 				} ,// Blank all form fields
@@ -201,18 +328,33 @@ export default {
                 var thisComponent = this;
 
                 //clone initial base model to working model
-              //  thisComponent.model = _.cloneDeep(thisComponent.baseModel);
+                thisComponent.model = _.cloneDeep(thisComponent.baseModel);
 
                 //reset working model state to unmodified
                 thisComponent.flag.modelState =  'UNMODIFIED';
-				/// thisComponent._setupObservers();
-            },
+				if(thisComponent.id){
+				
+				
+						thisComponent.getModel();
+					}
+            },makeVariantToast(variant = null,msg) {
+				 var thisComponent = this;
+				  thisComponent.$bvToast.toast(msg, {
+					title: variant,
+					variant: variant,
+					solid: true
+				  });
+				},
 
 			
         },
 		 mixins: [
             Form
-        ]
+        ],
+		props: [
+			'id'
+		]
+
 
 		
 

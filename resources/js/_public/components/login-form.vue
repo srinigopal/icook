@@ -198,11 +198,16 @@
                 })
                 .then(function(response) {
 
-                    if (response.status == 200) {
+                    if (response.data.status == 'success') {
 							localStorage.setItem('loggedIn','true');
 							self.loggedIn=true;		
-                        window.location.href = '/dashboard';
-
+							var main_role=response.data.payload.main_role;
+							
+							if(main_role=='superadmin')
+							window.location.href = '/dashboard';
+							else
+							window.location.href = '/management';
+							
                     } else {
 
                         self.flag.attemptingLogin = false;

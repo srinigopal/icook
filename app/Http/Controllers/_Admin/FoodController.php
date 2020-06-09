@@ -17,5 +17,9 @@ class FoodController extends Controller
     {
         return view('superadmin.food.add');
     }
+	public function edit($id)
+    {
+        return view('superadmin.food.edit')->with('id',$id);
+    }
 
 }

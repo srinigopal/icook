@@ -3,8 +3,8 @@
        
         <b-row>
             <b-col md="12 mb-30">
-                <b-card title="Create Restaurant">
-                    
+                <b-card title="">
+                   
                     <b-form>
                         <b-row>
 
@@ -46,13 +46,14 @@
 						 </b-form-group>	
 
 
-											 
+						    <b-col md="12">
+                                <b-button v-if="id" class="mt-3" type="button" variant="primary" v-on:click="updateCuisine" >Update</b-button>
+                                <b-button v-else class="mt-3" type="button" variant="primary" v-on:click="addCuisine">Submit</b-button>
+                            </b-col>					 
 							
-
+	
                          
-                            <b-col md="12">
-                                <b-button class="mt-3" type="button" variant="primary" v-on:click="addCategory" >Submit</b-button>
-                            </b-col>
+                           
                             
                         </b-row>
                     </b-form>
@@ -79,15 +80,17 @@ export default {
     data(){
         return{	
 		
+		title:'Cuisine Add',
 		 flag: {
                     modelState: 'UNMODIFIED'
                 },
                 observers: {},
-		 model: {
+				
+				baseModel: {
                     name:null,
                     description: null
                 },
-			//model: null            
+			model: null            
        
         }
     },	
@@ -127,7 +130,21 @@ export default {
 							});
 
 			},
-			addCategory: function () {
+			getModel: function() {
+               
+                var thisComponent = this;
+
+                thisComponent.formGetModel('cuisine/'+thisComponent.id)
+                    .then(function(response) {                    
+                     
+                      
+
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    }); 
+            },
+			addCuisine: function () {
 					
 					var thisComponent = this;
 
@@ -141,37 +158,58 @@ export default {
 							// Insert the ID of the newly created person to model
 							thisComponent.model = response.data
 
-						    thisComponent.$swal({
-									position: "top-end",
-									type: "success",
-									title: "Your work has been saved",
-									showConfirmButton: false,
-									timer: 1500
-								});
-
+						    thisComponent.makeVariantToast('success','Cuisine Updated Successfully')
 						})
 						.catch( function(error) {
-							console.log(error);
+							thisComponent.makeVariantToast('danger','Something wrong in updaing Cuisine')
 						});
 
 				} ,// Blank all form fields
-            _initComponent: function() {
+				updateCuisine: function () {
 
-                var thisComponent = this;
+					var thisComponent = this;
 
-                //clone initial base model to working model
-             //   thisComponent.model = _.cloneDeep(thisComponent.baseModel);
+					thisComponent.formPatchModel('cuisine')
+						.then(function(response) {
 
-                //reset working model state to unmodified
-                thisComponent.flag.modelState =  'UNMODIFIED';
-				// thisComponent._setupObservers();
-            },
+						  thisComponent.model=response.data.data;
+
+								thisComponent.makeVariantToast('success','Cuisine Added Successfully')
+						})
+						.catch( function(error) {
+							 thisComponent.makeVariantToast('danger','Something wrong in updaing Cuisine')
+						});
+					
+				},
+				_initComponent: function() {
+					var thisComponent = this;
+					//clone initial base model to working model
+					thisComponent.model = _.cloneDeep(thisComponent.baseModel);
+
+					//reset working model state to unmodified
+					thisComponent.flag.modelState =  'UNMODIFIED';
+					// thisComponent._setupObservers();
+					if(thisComponent.id){
+						thisComponent.getModel();
+					}
+				},
+				makeVariantToast(variant = null,msg) {
+				 var thisComponent = this;
+				  thisComponent.$bvToast.toast(msg, {
+					title: variant,
+					variant: variant,
+					solid: true
+				  });
+				},
 
 			
         },
 		 mixins: [
             Form
-        ]
+        ],
+		props: [
+			'id'
+		]
 
 		
 

@@ -219,7 +219,7 @@ export default {
 
             return new Promise(function(resolve, reject) {
                 axios
-                    .patch('/api/v1/' + url, thisComponent.model)
+                    .patch('/api/' + url, thisComponent.model)
                     .then(function(response) {
                         if (response.data.redirect) {
                             window.location.replace(response.data.redirect);
@@ -267,7 +267,7 @@ export default {
                 }).then(function(response) {
 
                     //set base model to keep an unmodified state
-                    thisComponent.baseModel = response.data;
+                    thisComponent.baseModel = response.data.data;
 
                     //setup working model from base model
                     thisComponent.model = _.cloneDeep(thisComponent.baseModel);

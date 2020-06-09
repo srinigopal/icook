@@ -5,14 +5,14 @@
 		<div class="breadcrumb">
                     <h1>Food </h1>
                     <ul>
-                        <li><a href="">UI Kits</a></li>
+                        <li><a href="">Lists</a></li>
                         <li>Food </li>
                     </ul>
         </div>
 		  <div class="separator-breadcrumb border-top"></div>
 		  
 		  
-		  <food-details></food-details>
+		  <management-food-details></management-food-details>
 				
 </div>
 @endsection

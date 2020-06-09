@@ -16,6 +16,7 @@ Route::prefix('cuisine')->group(function () {
 	
     Route::get('/', '_Admin\CuisineController@index')->name('admin.cuisine.index');
     Route::get('/add', '_Admin\CuisineController@add')->name('admin.cuisine.add');
+    Route::get('/edit/{id}', '_Admin\CuisineController@edit')->name('admin.cuisine.edit');
 	
 });
 
@@ -24,6 +25,7 @@ Route::prefix('category')->group(function () {
 	
     Route::get('/', '_Admin\CategoryController@index')->name('admin.category.index');
     Route::get('/add', '_Admin\CategoryController@add')->name('admin.category.add');
+    Route::get('/edit/{id}', '_Admin\CategoryController@edit')->name('admin.category.edit');
 	
 });
 
@@ -32,6 +34,7 @@ Route::prefix('food')->group(function () {
 	
     Route::get('/', '_Admin\FoodController@index')->name('admin.food.index');
     Route::get('/add', '_Admin\FoodController@add')->name('admin.food.add');
+    Route::get('/edit/{id}', '_Admin\FoodController@edit')->name('admin.food.edit');
 	
 });
 

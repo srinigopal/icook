@@ -37,7 +37,7 @@
                                 <b-form-input
                                 :class="{ 'is-invalid': formIsInvalid('model.phone') }" 
                                 id="input-1"
-                                v-model="form.phone"
+                                v-model="model.phone"
                                 type="text"
                                 required
                                 placeholder="put your phone number"
@@ -55,7 +55,7 @@
                                 <b-form-input
                                 
                                 id="input-1"
-                                v-model="form.mobile"
+                                v-model="model.mobile"
                                 type="text"
                                 required
                                 placeholder="put your mobile"
@@ -71,7 +71,7 @@
                                 <b-form-input
                             :class="{ 'is-invalid': formIsInvalid('model.address') }" 
                                 id="input-1"
-                                v-model="form.address"
+                                v-model="model.address"
                                 type="text"
                                 required
                                 placeholder="Enter Address"
@@ -90,7 +90,7 @@
                                 <b-form-input
                             
                                 id="input-1"
-                                v-model="form.latitude"
+                                v-model="model.latitude"
                                 type="text"
                                 required
                                 placeholder="Enter Latitude"
@@ -107,7 +107,7 @@
                                 <b-form-input
                             
                                 id="input-1"
-                                v-model="form.longitude"
+                                v-model="model.longitude"
                                 type="text"
                                 required
                                 placeholder="Enter Longitude"
@@ -120,11 +120,13 @@
                                 label="Description"
                                 label-for="input-1"
                                 class="col-md-6" 
+								
                             >
 								
 							<b-form-textarea
 							id="textarea-small"
 							size="sm"
+							 v-model="model.description"
 							placeholder="Small textarea"
 							>
 							</b-form-textarea>
@@ -136,11 +138,13 @@
                                 label="Information"
                                 label-for="input-1"
                                 class="col-md-6" 
+								 
                             >
 								
 							<b-form-textarea
 							id="textarea-small"
 							size="sm"
+							v-model="model.information"
 							placeholder="Small textarea"
 							>
 							</b-form-textarea>
@@ -150,7 +154,7 @@
                          
                          
                             <b-col md="12">
-                                <b-button v-if="id" class="mt-3" type="button" variant="primary" v-on:click="addOrganisation">Update</b-button>
+                                <b-button v-if="id" class="mt-3" type="button" variant="primary" v-on:click="updateOrganisation" >Update</b-button>
                                 <b-button v-else class="mt-3" type="button" variant="primary" v-on:click="addOrganisation">Submit</b-button>
                             </b-col>
                             
@@ -183,7 +187,7 @@ export default {
                     modelState: 'UNMODIFIED'
                 },
                 observers: {},
-		 model: {
+		 baseModel: {
                     name:null,
                     phone: null,
                     mobile: null,
@@ -195,7 +199,7 @@ export default {
                     open_status: null,
                     status: null,
                 },
-			//model: null            
+			model: null            
        
         }
     },	
@@ -216,20 +220,24 @@ export default {
                     thisComponent._initComponent()
                  
 
-            }, getModel: function() {
-               
+            }, 
+			 updateOrganisation: function () {
+
                 var thisComponent = this;
 
-                thisComponent.formGetModel('organisation/01a6a404-92ab-4c7c-abdd-3e11bd2b85c8')
-                    .then(function(response) {                    
-                     
-                      
+                thisComponent.formPatchModel('organisation/')
+                    .then(function(response) {
 
+                      thisComponent.model=response.data.data;
+
+							 thisComponent.makeVariantToast('success','Organisation Updated Successfully')
                     })
-                    .catch(function(error) {
-                        console.log(error);
-                    }); 
+                    .catch( function(error) {
+                         thisComponent.makeVariantToast('danger','Something wrong in updaing Organisation')
+                    });
+                
             },
+
 			 _setupObservers: function() {
 
 							var thisComponent = this;
@@ -262,23 +270,12 @@ export default {
 							// Insert the ID of the newly created person to model
 						//	thisComponent.model = response.data;
 
-						        thisComponent.$swal({
-									position: "top-end",
-									type: "success",
-									title: "Your work has been saved",
-									showConfirmButton: false,
-									timer: 1500
-								});
+						       thisComponent.makeVariantToast('success','Organisation Added Successfully')
 						})
 						
 						.catch( function(error) {
 						
-							 thisComponent.$swal({
-								type: "error",
-								title: "Oops...",
-								text: "Something went wrong!",
-								footer: "<a href>Why do I have this issue?</a>"
-							  });
+							 thisComponent.makeVariantToast('danger','Something wrong in updaing organisation')
 						});
 
 				} ,// Blank all form fields
@@ -291,11 +288,7 @@ export default {
 
 				var thisComponent = this;
 
-				return thisComponent.formGetModel('organisation/' + thisComponent.id).then(function(response) {
-				thisComponent.model=response.data.data;
-				
-				
-				})
+				return thisComponent.formGetModel('organisation/' + thisComponent.id)
 					.catch(function(error) {
 						console.log(error);
 					});
@@ -306,7 +299,7 @@ export default {
                 var thisComponent = this;
  
                 //clone initial base model to working model
-                //thisComponent.model = _.cloneDeep(thisComponent.baseModel);
+                thisComponent.model = _.cloneDeep(thisComponent.baseModel);
 
                 //reset working model state to unmodified
                 thisComponent.flag.modelState =  'UNMODIFIED';
@@ -314,7 +307,14 @@ export default {
 				if(thisComponent.id)
 				thisComponent.getModel();
             },
-
+			makeVariantToast(variant = null,msg) {
+				 var thisComponent = this;
+				  thisComponent.$bvToast.toast(msg, {
+					title: variant,
+					variant: variant,
+					solid: true
+				  });
+				},
 			
         },
 		 mixins: [

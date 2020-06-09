@@ -47,24 +47,18 @@
 
 
 											 
+							<b-col md="12">
+                                <b-button v-if="id" class="mt-3" type="button" variant="primary" v-on:click="updateCategory" >Update</b-button>
+                                <b-button v-else class="mt-3" type="button" variant="primary" v-on:click="addCategory">Submit</b-button>
+                            </b-col>					 
 							
-
-                         
-                            <b-col md="12">
-                                <b-button class="mt-3" type="submit" variant="primary" v-on:click="addCategory" >Submit</b-button>
-                            </b-col>
+	
                             
                         </b-row>
                     </b-form>
                 </b-card>
             </b-col>
 
-
-          
-
-     
-
-         
             
         </b-row>
     </div>
@@ -109,6 +103,20 @@ export default {
                  
 
             },
+			getModel: function() {
+               
+                var thisComponent = this;
+
+                thisComponent.formGetModel('category/'+thisComponent.id)
+                    .then(function(response) {                    
+                     
+                      
+
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    }); 
+            },
 			 _setupObservers: function() {
 
 							var thisComponent = this;
@@ -126,7 +134,23 @@ export default {
 								deep: true
 							});
 
-			},
+			},// Blank all form fields
+				updateCategory: function () {
+
+					var thisComponent = this;
+
+					thisComponent.formPatchModel('category')
+						.then(function(response) {
+
+						  thisComponent.model=response.data.data;
+
+								 thisComponent.makeVariantToast('success','Category Updated Successfully')
+						})
+						.catch( function(error) {
+							 thisComponent.makeVariantToast('danger','Something wrong in updaing categeory')
+						});
+					
+				},
 			addCategory: function () {
 					
 					var thisComponent = this;
@@ -141,11 +165,11 @@ export default {
 							// Insert the ID of the newly created person to model
 							thisComponent.model = response.data
 
-						   // vueEventBus.$emit('added-new-parent', thisComponent.model);
+						    thisComponent.makeVariantToast('success','Category Added Successfully')
 
 						})
 						.catch( function(error) {
-							console.log(error);
+							 thisComponent.makeVariantToast('danger','Something wrong in adding categeory')
 						});
 
 				} ,// Blank all form fields
@@ -158,14 +182,29 @@ export default {
 
                 //reset working model state to unmodified
                 thisComponent.flag.modelState =  'UNMODIFIED';
-				 thisComponent._setupObservers();
+				 //thisComponent._setupObservers();
+				 if(thisComponent.id){
+						thisComponent.getModel();
+					}
             },
+			
+			makeVariantToast(variant = null,msg) {
+			 var thisComponent = this;
+			  thisComponent.$bvToast.toast(msg, {
+				title: variant,
+				variant: variant,
+				solid: true
+			  });
+			},
 
 			
         },
 		 mixins: [
             Form
-        ]
+        ],
+		props: [
+			'id'
+		]
 
 		
 

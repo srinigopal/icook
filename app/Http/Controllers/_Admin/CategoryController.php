@@ -17,5 +17,8 @@ class CategoryController extends Controller
     {
         return view('superadmin.category.add');
     }
-
-}
+	public function edit($id)
+		{
+			return view('superadmin.category.edit')->with('id',$id);
+		}
+	}

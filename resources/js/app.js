@@ -21,7 +21,9 @@ import BootstrapVue from "bootstrap-vue";
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('top-nav-component', require('./components/TopNav.vue').default);
+Vue.component('management-top-component', require('./components/ManagementTopNav.vue').default);
 Vue.component('left-sidebar-component', require('./components/LeftSidebar.vue').default);
+Vue.component('management-component', require('./components/ManagementLeftSidebar.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

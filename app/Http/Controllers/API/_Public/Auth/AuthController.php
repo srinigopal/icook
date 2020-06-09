@@ -149,11 +149,19 @@ class AuthController extends Controller {
         if ($this->attemptLogin($request)) {
 			
 			auth()->attempt($request->only('email','password'));
+			$roles= auth()->user()->roles()->get()->pluck('name');
+			
+			$payload = collect(
+								$roles
+								);
+			$main_role=$this->getUserMainRole($payload);
+			
             return response()->json([
                 'status' => 'success',
                 'errors' => false,				
                 'payload' => [
-                    'users' => auth()->user()
+                    'users' => auth()->user(),
+                    'main_role' => $main_role
                    
                 ]
             ], 200);
@@ -171,5 +179,21 @@ class AuthController extends Controller {
         ], 403);
 
     }
+	
+	private function getUserMainRole($roles){
+		
+			$type='web';
+		
+		if($roles->contains('superadmin')){
+			
+			$type='superadmin';
+		}
+		if($roles->contains('admin')){
+			
+			$type='admin';
+		}
+		
+		return $type;
+	}
 
 }

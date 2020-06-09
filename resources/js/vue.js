@@ -226,6 +226,7 @@
 
 
 require('./_admin/scripts/bootstrap');
+require('./_management/scripts/bootstrap');
 require('./components/bootstrap');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 

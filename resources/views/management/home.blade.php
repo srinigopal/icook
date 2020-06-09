@@ -1,23 +1,15 @@
-@extends('layouts.app')
+@extends('management.layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                   <organisation-details></organisation-details>
-                </div>
-            </div>
+  <div class="main-content">
+		<div class="breadcrumb">
+                    <h1>Dashboards </h1>
+                    
         </div>
-    </div>
+		  <div class="separator-breadcrumb border-top"></div>
+		  
+		  
+		  <organisation-details></organisation-details>
+				
 </div>
 @endsection
-
-@push('scripts')
-
-    <script src="{{ mix('/js/admin/organisation/index.js') }}" defer></script>
-
-@endpush
