@@ -40,10 +40,10 @@ class AuthController extends Controller {
             $user->assignRole('admin');
 			
 			
-			$organisation = Organisation::first();
+			//$organisation = Organisation::first();
 
-			 // associate new admin user with organisation
-            $user->organisations()->attach($organisation->id);
+			// // associate new admin user with organisation
+            //$user->organisations()->attach($organisation->id);
 			
 			
             DB::commit();

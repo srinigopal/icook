@@ -2336,7 +2336,7 @@ new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\icook\resources\js\_public\scripts\signup\index.js */"./resources/js/_public/scripts/signup/index.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\icook\icook\resources\js\_public\scripts\signup\index.js */"./resources/js/_public/scripts/signup/index.js");
 
 
 /***/ })

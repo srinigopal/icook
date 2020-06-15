@@ -54934,6 +54934,7 @@ try {
   window.scriptmin = __webpack_require__(/*! ./plugins/script.min.js */ "./resources/js/plugins/script.min.js")["default"];
   window.sidebar = __webpack_require__(/*! ./plugins/sidebar.large.script.min.js */ "./resources/js/plugins/sidebar.large.script.min.js")["default"];
   window.sweetalert2 = __webpack_require__(/*! ./plugins/sweetalert2.js */ "./resources/js/plugins/sweetalert2.js")["default"];
+  window.dropzone = __webpack_require__(/*! ./plugins/stand-alone-button.js */ "./resources/js/plugins/stand-alone-button.js")["default"];
 
   __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
 } catch (e) {}
@@ -55304,6 +55305,44 @@ $(document).ready(function () {
 
 /***/ }),
 
+/***/ "./resources/js/plugins/stand-alone-button.js":
+/*!****************************************************!*\
+  !*** ./resources/js/plugins/stand-alone-button.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function ($) {
+  $.fn.filemanager = function (type, options) {
+    type = type || 'file'; // $("#lm").on("click", function() {
+
+    var route_prefix = options && options.prefix ? options.prefix : '/filemanager';
+    var target_input = $('#thumbnail');
+    var target_preview = $('#holder');
+    window.open(route_prefix + '?type=' + type, 'FileManager', 'width=900,height=600');
+
+    window.SetUrl = function (items) {
+      var file_path = items.map(function (item) {
+        return item.url;
+      }).join(','); // set the value of the desired input to image url
+
+      target_input.val('').val(file_path).trigger('change'); // clear previous preview
+
+      target_preview.html(''); // set or change the preview image src
+
+      items.forEach(function (item) {
+        target_preview.append($('<img>').css('height', '5rem').attr('src', item.thumb_url));
+      }); // trigger change event
+
+      target_preview.trigger('change');
+    };
+
+    return false; //});
+  };
+})(jQuery);
+
+/***/ }),
+
 /***/ "./resources/js/plugins/sweetalert2.js":
 /*!*********************************************!*\
   !*** ./resources/js/plugins/sweetalert2.js ***!
@@ -55376,7 +55415,7 @@ var app = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\icook\resources\js\web.js */"./resources/js/web.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\icook\icook\resources\js\web.js */"./resources/js/web.js");
 
 
 /***/ })

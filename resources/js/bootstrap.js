@@ -14,6 +14,7 @@ try {
     window.scriptmin = require('./plugins/script.min.js').default;    
     window.sidebar = require('./plugins/sidebar.large.script.min.js').default;
     window.sweetalert2 = require('./plugins/sweetalert2.js').default;
+    window.dropzone = require('./plugins/stand-alone-button.js').default;
     require('bootstrap');
 } catch (e) {}
 

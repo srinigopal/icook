@@ -178,7 +178,21 @@
 						 </b-form-group>	
 
 
+											<b-col md="12">	 
 											 
+							     <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-complete="afterComplete"></vue-dropzone>
+<br/>
+                            <div class="input-group">
+          <span class="input-group-btn" v-on:click="getImgaes">
+            <a id="lfm"  class="btn btn-primary text-white">
+              <i class="fa fa-picture-o"></i> From Gallery
+            </a>
+          </span>
+          <input id="thumbnail" class="form-control" type="text" name="filepath">
+        </div>
+                     <div id="holder" style="margin-top:15px;max-height:100px;"></div>    				 
+											 
+							 </b-col>				 
 							
 							<b-col md="12">
                                 <b-button v-if="id" class="mt-3" type="button" variant="primary" v-on:click="updateFood" >Update</b-button>
@@ -186,9 +200,7 @@
                             </b-col>					 
 							
 	
-                         
-                           
-                            
+                        
                         </b-row>
                     </b-form>
                 </b-card>
@@ -197,7 +209,7 @@
 
           
 
-     
+     <div id="alerts"></div>
 
          
             
@@ -206,14 +218,27 @@
 </template>
 <script>
   import Form from '@/_common/mixins/form.js';
+  import vue2Dropzone from 'vue2-dropzone'
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+
 export default {
      metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
     title: "Category Add"
+  },components: {
+    vueDropzone: vue2Dropzone
   },
     data(){
         return{	
-		
+		dropzoneOptions: {
+          url: 'http://127.0.0.1:8000/laravel-filemanager/upload',
+          thumbnailWidth: 150,
+         // maxFilesize: 0.5,
+		  paramName:'upload',
+          headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+      },
 		 flag: {
                     modelState: 'UNMODIFIED'
                 },
@@ -245,6 +270,27 @@ export default {
         },
 
 	 methods: {
+	 afterComplete(file) {
+      console.log(file.upload.filename);
+      console.log(file.xhr.response);
+	  
+	var response=file.xhr.response;
+	  const obj = JSON.parse(response);
+	  
+	  if(obj.error){
+	  
+	   $('#alerts').append(
+          $('<div>').addClass('alert alert-warning')
+            .append($('<i>').addClass('fas fa-exclamation-circle'))
+            .append(' ' + obj.error.message)
+        );
+	  console.log();
+	  }else{
+	  console.log(obj.url);
+	  }
+
+	  
+    },
 	   _setupListeners: function() {
 
                 var thisComponent = this;
@@ -299,6 +345,15 @@ export default {
 						.catch( function(error) {
 							 thisComponent.makeVariantToast('danger','Something wrong in updaing food menu')
 						});
+					
+				},
+				getImgaes: function () {
+
+				var route_prefix = "/filemanager";
+				$('#lfm').filemanager('image', {prefix: route_prefix});
+
+
+					
 					
 				},
 			addFood: function () {

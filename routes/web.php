@@ -19,6 +19,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// upload
+            Route::any('/upload', [
+                'uses' => 'UploadController@upload',
+                'as' => 'upload',
+            ]);
+			
+			
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+     \UniSharp\LaravelFilemanager\Lfm::routes();
+ });
 Route::get('/dashboard', 'HomeController@index')->name('home');
 //public routes
 foreach (File::allFiles(__DIR__.'/_public') as $file) {
