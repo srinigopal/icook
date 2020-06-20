@@ -258,6 +258,7 @@ const options = {
  
 Vue.use(VueSweetalert2,options);
 Vue.use(BootstrapVue)
+  window.vueEventBus = new Vue();
 const app = new Vue({
     el: '#app',
 });
@@ -268,7 +269,7 @@ const app = new Vue({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
  //setup global event bus 
-    window.vueEventBus = new Vue();
+  
 //import material-icon scss
 import "font-awesome/css/font-awesome.min.css"; 
 import "&/styles/sass/themes/lite-purple.scss";

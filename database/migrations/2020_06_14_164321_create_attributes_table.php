@@ -17,6 +17,8 @@ class CreateAttributesTable extends Migration
             $table->uuid('id')->primary();
 			$table->uuid('organisation_id');
 			$table->foreign('organisation_id')->references('id')->on('organisations');
+			$table->uuid('food_id');
+			$table->foreign('food_id')->references('id')->on('foods');
 			 $table->string('code')->unique();
             $table->string('name');
             $table->enum('frontend_type', ['checkbox', 'radio']);

@@ -18,6 +18,36 @@ class EditFoodTransformer extends TransformerAbstract
      */
     public function transform(Food $food)
     {
+		
+		 $subTransformAttributes = function($food) {
+
+            $transformedAttributes = [];
+
+            foreach ($food->attribute as $attribute) {
+
+                $transformedAttribute = [
+				
+                    'food_id' 				 => $attribute->food_id,
+                    'code'					 => $attribute->code,
+                    'id'					 => $attribute->id,
+                    'name'					 => $attribute->name,
+                    'frontend_type' 		 => $attribute->frontend_type,
+                    'is_filterable' 		 => $attribute->is_filterable,
+                    'is_required' 			 => $attribute->is_required,
+                ];
+
+                array_push($transformedAttributes, $transformedAttribute);
+            }
+
+            return $transformedAttributes;
+
+        };
+		
+		// Neater reference to values that are transformed in a seperate function
+        $transformed = [
+            'attributes' => $subTransformAttributes($food),
+            
+        ];
         
         return [
             'id' 							=> $food->id,
@@ -32,7 +62,7 @@ class EditFoodTransformer extends TransformerAbstract
             'weight' 						=> $food->weight,
             'featured' 						=> $food->featured,
             'deliverable' 					=> $food->deliverable,
-            
+            'attributes'					=> $transformed['attributes'],
         ];
 
     }

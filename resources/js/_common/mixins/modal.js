@@ -3,7 +3,7 @@ export default {
     methods: {
 
         _initModal: function() {
-
+alert("ddddddddddddddddddddddddddd");
             var thisComponent = this;
             
             var thisModal = $(this.$el);

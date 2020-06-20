@@ -53,7 +53,7 @@ class FoodController extends ApiController
             DB::beginTransaction();
 			
 			$food = new Food();
-			$food->organisation_id 			= '313126f9-4148-46e9-9113-86e4a4330308';     
+			$food->organisation_id 			= 1;     
 
             $food->name 					= $request->has('name') ? $request->input('name') :null;     
             $food->image 					= $request->has('image') ? $request->input('image') :null;     
@@ -128,7 +128,10 @@ class FoodController extends ApiController
         $foodId = $request->id;
 
         try {
-            $service = Food::where('id', $foodId)            
+            $service = Food::where('id', $foodId)  
+					->with( 
+							'attribute'                        
+                        )			
                 ->first();
 
                 if (!$service) {

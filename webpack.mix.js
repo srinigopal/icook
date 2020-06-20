@@ -22,7 +22,8 @@ mix.alias({
 mix
     .js([
         'resources/js/bootstrap.js',
-        'resources/js/vue.js',        
+        'resources/js/vue.js',
+		'resources/js/utils.js'        
     ], 'public/js/app.js')
     .js('resources/js/web.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css').version()

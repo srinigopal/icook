@@ -1,6 +1,6 @@
 <template>
     <div class="main-content">
-       
+        <modal-new-attribute></modal-new-attribute>
         <b-row>
             <b-col md="12 mb-30">
                 <b-card title="">
@@ -194,6 +194,53 @@
 											 
 							 </b-col>				 
 							
+							
+							 <button type="button" class="btn btn-link d-flex align-items-center" v-on:click="showModalNewAttribute('')">
+									<small><i class="fal fa-plus mr-1"></i></small>
+									<span>Add On</span>
+								</button>
+							
+							<b-col md="12">	 
+							
+	 <vue-good-table
+				:columns="columns"
+				:line-numbers="false"
+				:search-options="{
+				  enabled: true,
+				  placeholder: 'Search this table'
+				}"
+				:pagination-options="{
+				  enabled: false,
+				  mode: 'records'
+				}"
+				styleClass="tableOne vgt-table"
+				:rows="rows"
+      >
+      
+
+        <template slot="table-row" slot-scope="props">
+		
+			
+						
+          <span v-if="props.column.field == 'button'">
+		  
+            <a href="#" v-on:click="showModalNewAttribute(props.row.id)"  >
+              <i class="i-Eraser-2 text-25 text-success mr-2"></i>
+              {{ props.row.button }}</a
+            >
+            <a href="">
+              <i class="i-Close-Window text-25 text-danger"></i>
+              {{ props.row.button }}</a
+            >
+          </span>
+		   
+			
+         
+        </template>
+      </vue-good-table>
+							 </b-col>		
+							
+							
 							<b-col md="12">
                                 <b-button v-if="id" class="mt-3" type="button" variant="primary" v-on:click="updateFood" >Update</b-button>
                                 <b-button v-else class="mt-3" type="button" variant="primary" v-on:click="addFood">Submit</b-button>
@@ -220,18 +267,20 @@
   import Form from '@/_common/mixins/form.js';
   import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
-
+ import Modal from '@/_common/mixins/modal.js';
+  import newAttributeModal from '@/_private/components/new';
 export default {
      metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
     title: "Category Add"
   },components: {
-    vueDropzone: vue2Dropzone
+    vueDropzone: vue2Dropzone,
+	'modal-new-attribute': newAttributeModal
   },
     data(){
         return{	
 		dropzoneOptions: {
-          url: 'http://127.0.0.1:8000/laravel-filemanager/upload',
+          url: '/../laravel-filemanager/upload',
           thumbnailWidth: 150,
          // maxFilesize: 0.5,
 		  paramName:'upload',
@@ -256,6 +305,33 @@ export default {
                     deliverable: 0,
                 },
 				model:null,
+				
+		columns: [
+        {
+          label: "Name",
+          field: "name"
+        },
+        {
+          label: "Code",
+          field: "code"
+        },
+		 {
+          label: "Front Type",
+          field: "frontend_type"
+        },
+		{
+          label: "Is Required",
+          field: "is_required"
+        },
+        {
+          label: "Button",
+          field: "button",
+          html: true,
+          tdClass: "text-right",
+          thClass: "text-right"
+        }
+      ],
+      rows: [  ]
 		         
        
         }
@@ -270,6 +346,15 @@ export default {
         },
 
 	 methods: {
+	  showModalNewAttribute(id) {
+
+						var thisComponent = this;
+
+						vueEventBus.$emit('prepare-modal-new-attribute', id);
+
+		}, 
+					
+					
 	 afterComplete(file) {
       console.log(file.upload.filename);
       console.log(file.xhr.response);
@@ -296,7 +381,12 @@ export default {
                 var thisComponent = this;
                 
                     thisComponent._initComponent()
-                 
+                 // thisComponent._initComponent()
+						vueEventBus.$on('prepared-modal-new-attribute', function() {
+						
+						
+							showModal('modal-new-attribute', 'right');
+						});
 
             },
 			 _setupObservers: function() {
@@ -324,7 +414,7 @@ export default {
                 thisComponent.formGetModel('food/'+thisComponent.id)
                     .then(function(response) {                    
                      
-                      
+                       thisComponent.rows = response.data.data.attributes;
 
                     })
                     .catch(function(error) {
@@ -392,14 +482,15 @@ export default {
 				
 						thisComponent.getModel();
 					}
-            },makeVariantToast(variant = null,msg) {
+            },
+			makeVariantToast(variant = null,msg) {
 				 var thisComponent = this;
 				  thisComponent.$bvToast.toast(msg, {
 					title: variant,
 					variant: variant,
 					solid: true
 				  });
-				},
+			},
 
 			
         },

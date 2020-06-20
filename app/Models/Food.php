@@ -13,4 +13,9 @@ class Food extends Model
     {
         return $this->belongsTo('App\Organisation')->withDefault();
     }
+	
+	 public function attribute()
+    {
+        return $this->hasMany(Attribute::class, 'food_id');
+    }
 }

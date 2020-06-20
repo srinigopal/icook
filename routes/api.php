@@ -77,6 +77,22 @@ Route::group([ 'middleware' => 'auth:sanctum'], function () {
 			Route::patch('/', 'API\_Private\Food\FoodController@update');	
 		});
 		
+		
+		Route::group(['prefix' => 'attribute'], function () {
+			
+			Route::get('/', 'API\_Private\Attribute\AttributeController@index');	
+			Route::get('/{id}', 'API\_Private\Attribute\AttributeController@edit');	
+            Route::post('/', 'API\_Private\Attribute\AttributeController@store');			
+			Route::patch('/', 'API\_Private\Attribute\AttributeController@update');	
+		});
+		
+				Route::group(['prefix' => 'attributevalue'], function () {
+			
+			Route::get('/', 'API\_Private\AttributeValue\AttributeValueController@index');	
+			Route::get('/{id}', 'API\_Private\AttributeValue\AttributeValueController@edit');	
+            Route::post('/', 'API\_Private\AttributeValue\AttributeValueController@store');			
+			Route::patch('/', 'API\_Private\AttributeValue\AttributeValueController@update');	
+		});
 	// auth
     Route::group(['prefix' => 'auth'], function () {
 

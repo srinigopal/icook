@@ -1,6 +1,6 @@
 <template>
     <div class="main-content">
-       
+	 <modal-new-attribute></modal-new-attribute>
         <b-row>
             <b-col md="12 mb-30">
                 <b-card title="">
@@ -51,9 +51,12 @@
                                 <b-button v-else class="mt-3" type="button" variant="primary" v-on:click="addCuisine">Submit</b-button>
                             </b-col>					 
 							
-	
-                         
-                           
+	<!--
+                         <button type="button" class="btn btn-link d-flex align-items-center" v-on:click="showModalNewAttribute">
+									<small><i class="fal fa-plus mr-1"></i></small>
+									<span>Add a Attribute</span>
+								</button>
+                        -->   
                             
                         </b-row>
                     </b-form>
@@ -70,9 +73,18 @@
         </b-row>
     </div>
 </template>
+
 <script>
   import Form from '@/_common/mixins/form.js';
+  import Modal from '@/_common/mixins/modal.js';
+  import newAttributeModal from '@/_private/components/new';
 export default {
+components: {
+			
+			'modal-new-attribute': newAttributeModal
+			
+		},
+
      metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
     title: "Category Add"
@@ -104,12 +116,23 @@ export default {
         },
 
 	 methods: {
+	 showModalNewAttribute: function() {
+
+						var thisComponent = this;
+
+						vueEventBus.$emit('prepare-modal-new-attribute', 1);
+
+					}, 
 	   _setupListeners: function() {
 
                 var thisComponent = this;
                 
                     thisComponent._initComponent()
-                 
+						vueEventBus.$on('prepared-modal-new-attribute', function() {
+						
+						
+							showModal('modal-new-attribute', 'right');
+						});
 
             },
 			 _setupObservers: function() {
@@ -205,7 +228,7 @@ export default {
 			
         },
 		 mixins: [
-            Form
+            Form, Modal
         ],
 		props: [
 			'id'
@@ -215,3 +238,15 @@ export default {
 
 }
 </script>
+
+<style>
+.modal.right {
+    padding-right: 0!important;
+}
+.modal.right .modal-dialog {
+   
+    margin: 0;
+    border-radius: 0;
+    margin-left: auto;
+}
+</style>
