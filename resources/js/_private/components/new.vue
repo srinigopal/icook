@@ -170,7 +170,11 @@
     </div>
 
 </template>
-
+<style>
+.modal-content{
+min-height: 100vh;
+}
+</style>
 <script>
 
     import Form from '@/_common/mixins/form';

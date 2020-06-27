@@ -38,6 +38,6 @@ import "&/styles/sass/themes/lite-purple.scss";
 
 Vue.use(BootstrapVue)
 
-const app = new Vue({
+window.app = new Vue({
     el: '#app',
 });

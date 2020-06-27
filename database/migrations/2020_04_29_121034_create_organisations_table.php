@@ -15,6 +15,8 @@ class CreateOrganisationsTable extends Migration
     {
         Schema::create('organisations', function (Blueprint $table) {
             $table->uuid('id')->primary();
+			$table->uuid('user_id');
+			$table->foreign('user_id')->references('id')->on('users');
 			$table->string('name'); 
 			$table->integer('delivery_range')->nullable();
 			$table->string('phone')->nullable();

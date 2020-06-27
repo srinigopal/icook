@@ -7,6 +7,7 @@ use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Organisation;
+use App\Models\PivotOrganisation;
 use App\Http\Requests\Organisation\OrganisationRequest;
 use App\Transformers\Organisation\EditOrganisationTransformer;
 use DB;
@@ -56,7 +57,9 @@ class OrganisationController extends ApiController
 			$organisation->information		= $request->has('information') ? $request->input('information') :null;              
 			$organisation->open_status		= $request->has('openStatus') ? $request->input('openStatus') :null;              
 			$organisation->status			= $request->has('status') ? $request->input('status') :0;              
+			$organisation->user_id			= $request->has('user_id') ? $request->input('user_id') :null;              
             $organisation->save();
+			
 			
 			DB::commit();
 
@@ -87,7 +90,7 @@ class OrganisationController extends ApiController
             return $this->notFoundErrorResponse('Organisation id not found', 404);
             }	
             		
-            $organisation->name 	= $request->has('name') ? $request->input('name') :$organisation->name;     
+            $organisation->name 			= $request->has('name') ? $request->input('name') :$organisation->name;     
             $organisation->delivery_range 	= $request->has('deliveryRange') ? $request->input('deliveryRange') :$organisation->delivery_range;     
             $organisation->phone 			= $request->has('phone') ? $request->input('phone') :$organisation->phone;
 			$organisation->mobile			= $request->has('mobile') ? $request->input('mobile') :$organisation->mobile;            
@@ -96,6 +99,7 @@ class OrganisationController extends ApiController
 			$organisation->information		= $request->has('information') ? $request->input('information') :$organisation->information;              
 			$organisation->open_status		= $request->has('openStatus') ? $request->input('openStatus') :$organisation->open_status;              
 			$organisation->status			= $request->has('status') ? $request->input('status') :$organisation->status;              
+			$organisation->user_id			= $request->has('user_id') ? $request->input('user_id') :$organisation->user_id;              
             $organisation->save();
 			
 			DB::commit();

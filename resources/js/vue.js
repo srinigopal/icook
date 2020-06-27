@@ -259,7 +259,7 @@ const options = {
 Vue.use(VueSweetalert2,options);
 Vue.use(BootstrapVue)
   window.vueEventBus = new Vue();
-const app = new Vue({
+window.app = new Vue({
     el: '#app',
 });
 

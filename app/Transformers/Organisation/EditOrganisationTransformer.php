@@ -31,6 +31,11 @@ class EditOrganisationTransformer extends TransformerAbstract
             'information' 					=> $organisation->information,
             'open_status' 					=> $organisation->open_status,
             'status' 						=> $organisation->status,
+            'user_id' 						=> $organisation->user_id,
+            'userItem' 						=> array(
+														'text'=>'Test',
+														'id'=>$organisation->user_id,
+													)
             
         ];
 

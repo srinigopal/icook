@@ -151,8 +151,19 @@
 						 </b-form-group>							 
 							
 
+<b-form-group
+                                id="input-group-1"
+                                label="Type"
+                                label-for="input-1"
+                                class="col-md-6" 
+								 
+                            >
+                            
+                             <select-venue-selection  v-bind:default="model.user_id"  id="test-venue-selection"></select-venue-selection> 	
+                        </b-form-group>
                          
                          
+     
                             <b-col md="12">
                                 <b-button v-if="id" class="mt-3" type="button" variant="primary" v-on:click="updateOrganisation" >Update</b-button>
                                 <b-button v-else class="mt-3" type="button" variant="primary" v-on:click="addOrganisation">Submit</b-button>
@@ -166,7 +177,6 @@
 
           
 
-     
 
          
             
@@ -174,12 +184,19 @@
     </div>
 </template>
 <script>
+import Component from '@/_common/mixins/component.js';
   import Form from '@/_common/mixins/form.js';
+   
+
+   import venueSelectionSelect from "@/_private/components/venue-selection";
 export default {
      metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
     title: "Organisation Add"
-  },
+  }, components: {
+  
+             'select-venue-selection': venueSelectionSelect,
+        },
     data(){
         return{	
 		
@@ -198,8 +215,27 @@ export default {
                     information: null,
                     open_status: null,
                     status: null,
+					  user_id: null,
+					  userItem: {
+								text: null,
+								id: null
+                            },
+                },componentRegistry: {
+                    dates: null,
+                    selects: [
+                        {
+								component: 'test-venue-selection',
+								name: 'test-venue-selection',
+								dataSource: 'user_id',
+								default: null,
+								ready: false,
+								bootstrap: null,
+								updater: null 
+							}
+                    ]
                 },
-			model: null            
+			model: null,
+           
        
         }
     },	
@@ -209,7 +245,7 @@ export default {
             var thisComponent = this;
 
             thisComponent._setupListeners();
-
+          
         },
 
 	 methods: {
@@ -218,9 +254,35 @@ export default {
                 var thisComponent = this;
                 
                     thisComponent._initComponent()
-                 
+                  vueEventBus.$on('selected-child-type', function(id, optionId, text) {
+				  
+                    thisComponent.updateSelectedChildType(id, optionId, text);
+
+                });
+				
+				vueEventBus.$on('selected-venue-selection', function(id, optionId, text) {
+				
+				thisComponent.model.userItem.id = optionId;
+					thisComponent.model.userItem.text = text;
+					thisComponent.$forceUpdate();
+					thisComponent.updateSelectedChildType(id, optionId, text);
+                                  
+					thisComponent.model.user_id = optionId;
+					
+					
+                                    
+				});
+				
 
             }, 
+			
+			 updateSelectedChildType: function(id, optionId, text) {
+                
+                var thisComponent = this;
+                    thisComponent.model.user_id = optionId;
+               // }
+
+            },
 			 updateOrganisation: function () {
 
                 var thisComponent = this;
@@ -242,18 +304,13 @@ export default {
 
 							var thisComponent = this;
 
-							//remove any existing watchers if present
-							if (typeof(thisComponent.observers.unwatchModel) === 'function') {
-								thisComponent.observers.unwatchModel();
-							}
-
-							//instantiate unwatcher for model observer
-							thisComponent.observers.unwatchModel = thisComponent.$watch('model', {
-								handler: function(newValue, oldValue) {
-									thisComponent.flag.modelState = 'MODIFIED';
-								},
-								deep: true
-							});
+                //instantiate unwatcher for model observer
+                thisComponent.observers.unwatchModel = thisComponent.$watch('model', {
+                    handler: function(newValue, oldValue) {
+                        thisComponent.flag.modelState = 'MODIFIED';
+                    },
+                    deep: true
+                });
 
 			},
 			addOrganisation: function () {
@@ -288,7 +345,11 @@ export default {
 
 				var thisComponent = this;
 
-				return thisComponent.formGetModel('organisation/' + thisComponent.id)
+				 thisComponent.formGetModel('organisation/' + thisComponent.id) .then(function(response) {
+
+                      vueEventBus.$emit('select2-selected-single', 'test-venue-selection', thisComponent.model.user_id);
+                        
+                    })
 					.catch(function(error) {
 						console.log(error);
 					});
@@ -303,9 +364,11 @@ export default {
 
                 //reset working model state to unmodified
                 thisComponent.flag.modelState =  'UNMODIFIED';
-				// thisComponent._setupObservers();
+				 thisComponent._setupObservers();
 				if(thisComponent.id)
 				thisComponent.getModel();
+				
+				
             },
 			makeVariantToast(variant = null,msg) {
 				 var thisComponent = this;
@@ -318,7 +381,7 @@ export default {
 			
         },
 		 mixins: [
-            Form
+           Form
         ]
 		,props: [
 			'id'

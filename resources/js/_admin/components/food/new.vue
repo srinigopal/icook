@@ -180,65 +180,74 @@
 
 											<b-col md="12">	 
 											 
-							     <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-complete="afterComplete"></vue-dropzone>
+											<vue-dropzone 
+												ref="myVueDropzone" 
+												id="dropzone" 
+												:options="dropzoneOptions"												
+												@vdropzone-removed-file="rmfile"
+												@vdropzone-success="afterComplete"
+											>
+											</vue-dropzone>
 <br/>
-                            <div class="input-group">
-          <span class="input-group-btn" v-on:click="getImgaes">
-            <a id="lfm"  class="btn btn-primary text-white">
-              <i class="fa fa-picture-o"></i> From Gallery
-            </a>
-          </span>
-          <input id="thumbnail" class="form-control" type="text" name="filepath">
-        </div>
-                     <div id="holder" style="margin-top:15px;max-height:100px;"></div>    				 
+                            <div class="" style="float:right">
+							  <span class="input-group-btn" v-on:click="getImgaes">
+								<a id="lfm"  class="btn btn-primary text-white">
+								  <i class="fa fa-picture-o"></i> From Gallery
+								</a>
+							  </span>
+							  <input id="thumbnail"  class="form-control" type="hidden" name="filepath" >
+							</div>
+                     <div id="holder" style="margin-top:15px;max-height:100px; display:none"></div>    				 
 											 
 							 </b-col>				 
 							
-							
+						<b-col md="12" v-if="id">	 		
 							 <button type="button" class="btn btn-link d-flex align-items-center" v-on:click="showModalNewAttribute('')">
 									<small><i class="fal fa-plus mr-1"></i></small>
 									<span>Add On</span>
 								</button>
 							
-							<b-col md="12">	 
+							<b-col md="12" >	 
 							
-	 <vue-good-table
-				:columns="columns"
-				:line-numbers="false"
-				:search-options="{
-				  enabled: true,
-				  placeholder: 'Search this table'
-				}"
-				:pagination-options="{
-				  enabled: false,
-				  mode: 'records'
-				}"
-				styleClass="tableOne vgt-table"
-				:rows="rows"
-      >
+				 <vue-good-table
+							:columns="columns"
+							:line-numbers="false"
+							:search-options="{
+							  enabled: true,
+							  placeholder: 'Search this table'
+							}"
+							:pagination-options="{
+							  enabled: false,
+							  mode: 'records'
+							}"
+							styleClass="tableOne vgt-table"
+							:rows="rows"
+				  >
       
 
-        <template slot="table-row" slot-scope="props">
-		
-			
+						<template slot="table-row" slot-scope="props">
 						
-          <span v-if="props.column.field == 'button'">
-		  
-            <a href="#" v-on:click="showModalNewAttribute(props.row.id)"  >
-              <i class="i-Eraser-2 text-25 text-success mr-2"></i>
-              {{ props.row.button }}</a
-            >
-            <a href="">
-              <i class="i-Close-Window text-25 text-danger"></i>
-              {{ props.row.button }}</a
-            >
-          </span>
-		   
-			
-         
-        </template>
-      </vue-good-table>
-							 </b-col>		
+							
+										
+						  <span v-if="props.column.field == 'button'">
+						  
+							<a href="#" v-on:click="showModalNewAttribute(props.row.id)"  >
+							  <i class="i-Eraser-2 text-25 text-success mr-2"></i>
+							  {{ props.row.button }}</a
+							>
+							<a href="">
+							  <i class="i-Close-Window text-25 text-danger"></i>
+							  {{ props.row.button }}</a
+							>
+						  </span>
+						   
+							
+						 
+						</template>
+					</vue-good-table>
+						</b-col>		
+
+						</b-col>		
 							
 							
 							<b-col md="12">
@@ -254,7 +263,7 @@
             </b-col>
 
 
-          
+         <!--  <b-button class="mt-3" type="button" variant="primary" v-on:click="populate">populate</b-button>-->
 
      <div id="alerts"></div>
 
@@ -269,6 +278,17 @@
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
  import Modal from '@/_common/mixins/modal.js';
   import newAttributeModal from '@/_private/components/new';
+  import $ from 'jquery';
+  
+  $( document ).ready(function() {  
+	  $('#thumbnail').change(function() {	
+	   var url = $(this).val();
+		vueEventBus.$emit('test', url);
+		
+	});
+});
+
+
 export default {
      metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -283,11 +303,15 @@ export default {
           url: '/../laravel-filemanager/upload',
           thumbnailWidth: 150,
          // maxFilesize: 0.5,
+		 maxFiles: 1,
 		  paramName:'upload',
+		   addRemoveLinks: true,
+		   dictRemoveFileConfirmation:  "Are you sure? You want to remove this?",
           headers: {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
       },
+	  inputVal :null,
 		 flag: {
                     modelState: 'UNMODIFIED'
                 },
@@ -303,6 +327,7 @@ export default {
                     weight: null,
                     featured: 0,
                     deliverable: 0,
+					files:[],
                 },
 				model:null,
 				
@@ -342,10 +367,33 @@ export default {
             var thisComponent = this;
 
             thisComponent._setupListeners();
-
+		
+	  
+	
         },
 
 	 methods: {
+	 
+	 rmfile:function(file, error, xhr){
+	 
+	 console.log(file);
+	  var thisComponent = this;
+	 
+	// const valueToRemove = 'http://localhost/icook/icook/public/storage/files/71c6708f-123c-4033-b084-8195af68cb2c/bicycle.png';
+	 const valueToRemove = file.url;
+	
+	 var venueToDeleteIndex = thisComponent.model.files.findIndex(venue => venue.file_url == valueToRemove);	
+	
+		thisComponent.model.files.splice(venueToDeleteIndex, 1);
+		thisComponent.$forceUpdate();		
+
+	 },
+	  fileRemoved: function(file, error, xhr) {
+	  
+	   if(file){
+		//console.log(file.upload.filename);
+     }
+    },
 	  showModalNewAttribute(id) {
 
 						var thisComponent = this;
@@ -354,27 +402,39 @@ export default {
 
 		}, 
 					
-					
+		removeAllFiles() {
+		  this.$refs.dropzone.removeAllFiles();
+		},			
 	 afterComplete(file) {
-      console.log(file.upload.filename);
-      console.log(file.xhr.response);
-	  
-	var response=file.xhr.response;
-	  const obj = JSON.parse(response);
-	  
-	  if(obj.error){
-	  
-	   $('#alerts').append(
-          $('<div>').addClass('alert alert-warning')
-            .append($('<i>').addClass('fas fa-exclamation-circle'))
-            .append(' ' + obj.error.message)
-        );
-	  console.log();
-	  }else{
-	  console.log(obj.url);
-	  }
+	 var thisComponent = this;
+	// console.log(file);
+	 if(file){
+		 // console.log(file.upload.filename);
+		 // console.log(file.xhr.response);
+		  
+			var response=file.xhr.response;
+			const obj = JSON.parse(response);
+			
+			
+			thisComponent.model.files.push({
+            file_name: file.upload.filename, 
+            file_url:  obj.url,
+			manuallyAddFile:  'no',
+        })
+			
+		 /* if(obj.error){
+		  
+		   $('#alerts').append(
+			  $('<div>').addClass('alert alert-warning')
+				.append($('<i>').addClass('fas fa-exclamation-circle'))
+				.append(' ' + obj.error.message)
+			);
+		
+		  }else{
+		
+		  }*/
 
-	  
+	  }
     },
 	   _setupListeners: function() {
 
@@ -387,7 +447,14 @@ export default {
 						
 							showModal('modal-new-attribute', 'right');
 						});
-
+						
+						vueEventBus.$on('test', function(url) {
+						
+						//showModal('modal-new-attribute', 'right');
+							thisComponent.populate(url);
+						});
+						
+						
             },
 			 _setupObservers: function() {
 
@@ -406,6 +473,22 @@ export default {
 								deep: true
 							});
 
+			},
+			
+			populate: function (url) {
+			
+				var thisComponent = this;
+					var file = { size: 123, name: "Icon", type: "image/png", url: url };
+					//var url = "http://staging.clientgorilla.com/assets/images/logo/clientgorilla-logo-color.png";
+				   thisComponent.$refs.myVueDropzone.manuallyAddFile(file, url);
+				   //thisComponent.model.files.push(url)
+				   
+				   thisComponent.model.files.push({
+						file_name: 'Icon', 
+						file_url:  url,
+						manuallyAddFile:  'yes',
+					})
+				  
 			},
 			getModel: function() {
                
@@ -443,7 +526,6 @@ export default {
 				$('#lfm').filemanager('image', {prefix: route_prefix});
 
 
-					
 					
 				},
 			addFood: function () {
@@ -505,4 +587,7 @@ export default {
 		
 
 }
+//const input = this.$refs.email;
+
+
 </script>

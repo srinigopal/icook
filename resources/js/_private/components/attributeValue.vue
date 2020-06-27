@@ -100,7 +100,11 @@
     </div>
 
 </template>
-
+<style>
+.modal-content{
+min-height: 100vh;
+}
+</style>
 <script>
 
     import Form from '@/_common/mixins/form';
@@ -160,6 +164,7 @@
                     
                     thisComponent.id = id;
                     thisComponent.model.attribute_id = attribute_id;
+					 if(thisComponent.id)
 						thisComponent.getModel(id);
                     vueEventBus.$emit('prepared-modal-new-attributevalue');
 

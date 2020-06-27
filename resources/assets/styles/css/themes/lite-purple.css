@@ -4568,6 +4568,7 @@ button.close {
     content: ""; }
 
 .modal-content {
+	min-height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;

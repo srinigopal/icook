@@ -43,6 +43,12 @@ Route::group([ 'middleware' => 'auth:sanctum'], function () {
       
 		
 });
+
+		Route::group(['prefix' => 'users'], function () {
+			
+			Route::get('/', 'API\_Private\User\UserController@index');	
+			
+		});
 		Route::group(['prefix' => 'organisation'], function () {
 			
 			Route::get('/', 'API\_Private\Organisation\OrganisationController@index');	
