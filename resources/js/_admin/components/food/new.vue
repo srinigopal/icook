@@ -202,7 +202,7 @@
 							 </b-col>				 
 							
 						<b-col md="12" v-if="id">	 		
-							 <button type="button" class="btn btn-link d-flex align-items-center" v-on:click="showModalNewAttribute('')">
+							 <button type="button" class="btn btn-link d-flex align-items-center" v-on:click="showModalNewAttribute(id,'')">
 									<small><i class="fal fa-plus mr-1"></i></small>
 									<span>Add On</span>
 								</button>
@@ -231,7 +231,7 @@
 										
 						  <span v-if="props.column.field == 'button'">
 						  
-							<a href="#" v-on:click="showModalNewAttribute(props.row.id)"  >
+							<a href="#" v-on:click="showModalNewAttribute(id,props.row.id)"  >
 							  <i class="i-Eraser-2 text-25 text-success mr-2"></i>
 							  {{ props.row.button }}</a
 							>
@@ -394,11 +394,11 @@ export default {
 		//console.log(file.upload.filename);
      }
     },
-	  showModalNewAttribute(id) {
+	  showModalNewAttribute(food_id,id) {
 
 						var thisComponent = this;
 
-						vueEventBus.$emit('prepare-modal-new-attribute', id);
+						vueEventBus.$emit('prepare-modal-new-attribute', food_id,id);
 
 		}, 
 					
@@ -490,6 +490,18 @@ export default {
 					})
 				  
 			},
+			
+			populateImage: function (url) {
+			
+				var thisComponent = this;
+					var file = { size: 123, name: "Icon", type: "image/png", url: url };
+					//var url = "http://staging.clientgorilla.com/assets/images/logo/clientgorilla-logo-color.png";
+				   thisComponent.$refs.myVueDropzone.manuallyAddFile(file, url);
+				   //thisComponent.model.files.push(url)
+				   
+				  
+				  
+			},
 			getModel: function() {
                
                 var thisComponent = this;
@@ -497,7 +509,11 @@ export default {
                 thisComponent.formGetModel('food/'+thisComponent.id)
                     .then(function(response) {                    
                      
-                       thisComponent.rows = response.data.data.attributes;
+                       thisComponent.rows = response.data.data.attributes;                       
+					   
+					    _.each(response.data.data.files, function(role) {
+                             thisComponent.populateImage(role.file_url);
+                        });
 
                     })
                     .catch(function(error) {

@@ -68,6 +68,20 @@ class FoodController extends ApiController
 			$food->deliverable				= $request->has('deliverable') ? $request->input('deliverable') :0;              
             $food->save();
 			
+			if($request->has('files')){
+				$files = $request->input('files');
+			
+				foreach($files as $files){					
+					   $url = $files['file_url'];						   
+						if($url){								
+						$foodModel = Food::find($food->id);
+							$foodModel
+						   ->addMediaFromUrl($url)
+						   ->toMediaCollection();
+						}
+			    }	
+					
+			}
 			DB::commit();
 
 			return  $this->successResponse($food);
@@ -109,9 +123,29 @@ class FoodController extends ApiController
 			$food->deliverable			= $request->has('deliverable') ? $request->input('deliverable') :$food->deliverable;              
             $food->save();
 			
+			
+			if($request->has('files')){
+				$files = $request->input('files');
+			
+				foreach($files as $files){					
+					   $url = $files['file_url'];						   
+						if($url){								
+						$foodModel = Food::find($food->id);
+							$foodModel
+						   ->addMediaFromUrl($url)
+						   ->toMediaCollection();
+						}
+			    }	
+					
+			}
+			
+			
 			DB::commit();
-
-			return  $this->successResponse($food);
+			
+			 $payload = $this->getData($food);
+			
+			
+			return  $this->successResponse($payload);
           
         } catch (Exception $e) {
 			
@@ -128,27 +162,20 @@ class FoodController extends ApiController
         $foodId = $request->id;
 
         try {
-            $service = Food::where('id', $foodId)  
+            $food = Food::where('id', $foodId)  
 					->with( 
 							'attribute'                        
                         )			
                 ->first();
 
-                if (!$service) {
+                if (!$food) {
 				
                     return $this->notFoundErrorResponse('food not found', 404);
                   }	    
 
-            //setup new Fractal Manager instance
-            $manager = new Manager();
+            
 
-            //set serializer to customer serializer - removes "data" key from collections
-            $manager->setSerializer(new APISerializer());
-
-            // pass the record through the transformer
-            $resource = new Item($service, new EditFoodTransformer);
-
-            $payload = $manager->createData($resource)->toArray();
+            $payload = $this->getData($food);
 
         } catch (Exception $e) {
 
@@ -158,4 +185,19 @@ class FoodController extends ApiController
         return  $this->successResponse($payload);
 
     }
+	
+	private function getData($food){
+			
+		 //setup new Fractal Manager instance
+            $manager = new Manager();
+
+            //set serializer to customer serializer - removes "data" key from collections
+            $manager->setSerializer(new APISerializer());
+
+            // pass the record through the transformer
+            $resource = new Item($food, new EditFoodTransformer);
+
+           return $payload = $manager->createData($resource)->toArray();
+
+	}
 }

@@ -19,6 +19,7 @@
         "laravel/ui": "^2.0",
         "league/fractal": "^0.19.2",
         "spatie/laravel-fractal": "^5.7",
+        "spatie/laravel-medialibrary": "^8.0.0",
         "spatie/laravel-permission": "^3.11",
         "unisharp/laravel-filemanager": "^2.1",
         "waavi/sanitizer": "~1.0"

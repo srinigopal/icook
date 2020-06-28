@@ -94,15 +94,13 @@
 						  
 							
 							
-							<b-col md="12">	 
+							<b-col md="12" v-if="id">	 
 							<button type="button" class="btn btn-link d-flex align-items-center" v-on:click="showModalNewAttributeValue(model.id,'')">
 									<small><i class="fal fa-plus mr-1"></i></small>
 									<span>Add a attribute</span>
 								</button>
 							
-							</b-col>
 							
-												<b-col md="12">	 
 							
 		  <vue-good-table
 				:columns="columns"
@@ -283,14 +281,15 @@ import newAttributeValueModal from '@/_private/components/attributeValue.vue';
 						
 							showModal('modal-new-attributevalue', 'right');
 						});
-                vueEventBus.$on('prepare-modal-new-attribute', function(clientId) {
+                vueEventBus.$on('prepare-modal-new-attribute', function(food_id,id) {
 
                     thisComponent.model = _.cloneDeep(thisComponent.baseModel);
                     
                   
-                    thisComponent.id = clientId;
-                    thisComponent.model.food_id = clientId;
-						thisComponent.getModel(clientId);
+                    thisComponent.id = id;
+                    thisComponent.model.food_id = food_id;
+					if(id)
+						thisComponent.getModel(id);
                     vueEventBus.$emit('prepared-modal-new-attribute');
 
                 });

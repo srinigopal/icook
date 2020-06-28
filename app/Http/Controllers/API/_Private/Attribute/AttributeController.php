@@ -53,6 +53,7 @@ class AttributeController extends ApiController
             $attribute->code 						= $request->has('code') ? $request->input('code') :null;     
             $attribute->name 						= $request->has('name') ? $request->input('name') :null;     
             $attribute->frontend_type 				= $request->has('frontend_type') ? $request->input('frontend_type') :'checkbox';              
+            $attribute->food_id 					= $request->has('food_id') ? $request->input('food_id') :null;              
             $attribute->is_required 				= $request->has('is_required') ? $request->input('is_required') :0;              
 			//$category->status			= $request->has('status') ? $request->input('status') :0;              
             $attribute->save();
