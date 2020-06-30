@@ -283,7 +283,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
   $( document ).ready(function() {  
 	  $('#thumbnail').change(function() {	
 	   var url = $(this).val();
-		vueEventBus.$emit('test', url);
+		//vueEventBus.$emit('test', url);
 		
 	});
 });

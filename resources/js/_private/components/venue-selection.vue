@@ -59,13 +59,7 @@
                     }
                 });
 
-                // A new manage type has been added
-              /*  vueEventBus.$on('updated-model-venue-selection', function() {
-
-                    thisComponent.getModel();
-
-                });
-*/
+              
 
             },
 

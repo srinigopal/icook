@@ -151,19 +151,21 @@
 						 </b-form-group>							 
 							
 
-<b-form-group
+						<b-form-group
                                 id="input-group-1"
-                                label="Type"
+                                label="Users"
                                 label-for="input-1"
                                 class="col-md-6" 
 								 
                             >
                             
-                             <select-venue-selection  v-bind:default="model.user_id"  id="test-venue-selection"></select-venue-selection> 	
+                             <select-venue-selection  v-bind:default="model.user_id"  id="test-venue-selection"></select-venue-selection> 
+
+							  
                         </b-form-group>
-                         
-                         
-     
+                         <b-col md="12">
+                          <dropzone-componend id="org_drop_zone" v-on:childToParent="onChildClick"></dropzone-componend> 	
+     </b-col>
                             <b-col md="12">
                                 <b-button v-if="id" class="mt-3" type="button" variant="primary" v-on:click="updateOrganisation" >Update</b-button>
                                 <b-button v-else class="mt-3" type="button" variant="primary" v-on:click="addOrganisation">Submit</b-button>
@@ -186,7 +188,7 @@
 <script>
 import Component from '@/_common/mixins/component.js';
   import Form from '@/_common/mixins/form.js';
-   
+   import dropzonecomponends from '@/_private/components/dropzone';
 
    import venueSelectionSelect from "@/_private/components/venue-selection";
 export default {
@@ -196,6 +198,7 @@ export default {
   }, components: {
   
              'select-venue-selection': venueSelectionSelect,
+             'dropzone-componend': dropzonecomponends,
         },
     data(){
         return{	
@@ -216,6 +219,7 @@ export default {
                     open_status: null,
                     status: null,
 					  user_id: null,
+					  files:[],
 					  userItem: {
 								text: null,
 								id: null
@@ -249,6 +253,16 @@ export default {
         },
 
 	 methods: {
+	 onChildClick (value) {
+	
+
+	 
+	 console.log('--------------------------------------------');
+	  console.log(value);
+	 console.log('--------------------------------------------');
+	
+      this.model.files = value
+    },
 	   _setupListeners: function() {
 
                 var thisComponent = this;
